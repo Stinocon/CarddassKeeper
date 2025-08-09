@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Carddass Collection Manager</title>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --text-primary: #2c3e50;
+            --text-secondary: #6c757d;
+            --border-color: #e9ecef;
+            --border-hover: #3498db;
+            --card-bg: #ffffff;
+            --hover-bg: #e8f4f8;
+            --even-row: #f8f9fa;
+            --shadow: rgba(0,0,0,0.15);
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #bdc3c7;
+            --border-color: #444444;
+            --border-hover: #3498db;
+            --card-bg: #2d2d2d;
+            --hover-bg: #3a3a3a;
+            --even-row: #333333;
+            --shadow: rgba(0,0,0,0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 25px 50px var(--shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        h1 {
+            color: var(--text-primary);
+            font-size: 2.2em;
+            margin-bottom: 15px;
+        }
+        
+        .theme-toggle, .mobile-toggle {
+            background: var(--border-hover);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mobile-toggle {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .theme-toggle:hover, .mobile-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Mobile Mode Styles */
+        .mobile-mode .container {
+            padding: 10px;
+            border-radius: 15px;
+        }
+
+        .mobile-mode h1 {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+        }
+
+        .mobile-mode .header {
+            flex-direction: column;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .mobile-mode .stats-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .mobile-mode .stat-card {
+            min-width: 140px;
+            padding: 15px;
+            flex-shrink: 0;
+        }
+
+        .mobile-mode .stat-number {
+            font-size: 1.8em;
+        }
+
+        .mobile-mode .filters-section {
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .mobile-mode .filters-content {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .mobile-mode .controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            padding: 15px;
+            border-top: 2px solid var(--border-color);
+            box-shadow: 0 -5px 20px var(--shadow);
+            z-index: 1000;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+        }
+
+        .mobile-mode .controls .btn {
+            padding: 8px 12px;
+            font-size: 12px;
+            white-space: nowrap;
+            min-width: fit-content;
+        }
+
+        .mobile-mode .table-container {
+            margin-bottom: 80px; /* Space for fixed controls */
+            border-radius: 10px;
+        }
+
+        .mobile-mode table {
+            font-size: 12px;
+        }
+
+        .mobile-mode th, .mobile-mode td {
+            padding: 8px 6px;
+        }
+
+        .mobile-mode .card-number {
+            padding: 4px 8px;
+            font-size: 10px;
+            min-width: 30px;
+        }
+
+        .mobile-mode .pokemon-name {
+            font-size: 13px;
+        }
+
+        .mobile-mode .type {
+            padding: 2px 6px;
+            font-size: 9px;
+            margin-right: 2px;
+        }
+
+        .mobile-mode .purchase-checkbox {
+            width: 24px;
+            height: 24px;
+            transform: scale(1.4);
+        }
+
+        /* Card View Mode for Mobile */
+        .mobile-mode .card-view {
+            display: none;
+        }
+
+        .mobile-mode.card-view-active .table-container {
+            display: none;
+        }
+
+        .mobile-mode.card-view-active .card-view {
+            display: block;
+        }
+
+        .pokemon-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .pokemon-card:hover, .pokemon-card.owned {
+            border-color: var(--border-hover);
+            background: var(--hover-bg);
+        }
+
+        .pokemon-card.owned {
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(46, 204, 113, 0.1));
+        }
+
+        .card-info {
+            flex: 1;
+        }
+
+        .card-info .pokemon-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .card-info .card-number {
+            margin-bottom: 8px;
+        }
+
+        .card-checkbox {
+            width: 28px;
+            height: 28px;
+            accent-color: #3498db;
+            cursor: pointer;
+        }
+
+        /* View Toggle */
+        .view-toggle {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .view-toggle:hover {
+            transform: translateY(-1px);
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+        }
+        
+        .stat-number {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: var(--border-hover);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .filters-section {
+            background: var(--bg-secondary);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid var(--border-color);
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .filters-header h3 {
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .filters-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .filters-toggle:hover {
+            background: var(--border-color);
+        }
+
+        .filters-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        
+        .search-box, .filter-select {
+            padding: 12px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 16px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .search-box:focus, .filter-select:focus {
+            outline: none;
+            border-color: var(--border-hover);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            font-size: 14px;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        tr:nth-child(even) {
+            background: var(--even-row);
+        }
+        
+        tr:hover {
+            background: var(--hover-bg);
+        }
+        
+        .card-number {
+            font-family: 'Courier New', monospace;
+            background: #3498db;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            display: inline-block;
+            min-width: 40px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .pokemon-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .type {
+            padding: 4px 12px;
+            border-radius: 15px;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 5px;
+            display: inline-block;
+        }
+        
+        .type-normal { background: #A8A878; }
+        .type-fire { background: #F08030; }
+        .type-water { background: #6890F0; }
+        .type-electric { background: #F8D030; color: #333; }
+        .type-grass { background: #78C850; }
+        .type-ice { background: #98D8D8; }
+        .type-fighting { background: #C03028; }
+        .type-poison { background: #A040A0; }
+        .type-ground { background: #E0C068; }
+        .type-flying { background: #A890F0; }
+        .type-psychic { background: #F85888; }
+        .type-bug { background: #A8B820; }
+        .type-rock { background: #B8A038; }
+        .type-ghost { background: #705898; }
+        .type-dragon { background: #7038F8; }
+        .type-special { background: #e74c3c; }
+        
+        .checkbox-container {
+            text-align: center;
+        }
+        
+        .purchase-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: #3498db;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+        
+        .secret-card {
+            background: linear-gradient(45deg, #ffd700, #ffed4e) !important;
+            color: #333 !important;
+        }
+
+        .secret-card .pokemon-name {
+            color: #333 !important;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+
+        /* Stili per la stampa */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0;
+                color: black !important;
+            }
+
+            .container {
+                background: white !important;
+                box-shadow: none !important;
+                border-radius: 0;
+                padding: 20px;
+                max-width: none;
+            }
+
+            .controls, .filters-section, .theme-toggle {
+                display: none !important;
+            }
+
+            .header {
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+
+            .stats-container {
+                margin-bottom: 20px;
+            }
+
+            .stat-card {
+                background: white !important;
+                border: 1px solid #333 !important;
+                color: black !important;
+            }
+
+            .stat-number {
+                color: #3498db !important;
+            }
+
+            .stat-label {
+                color: #666 !important;
+            }
+
+            table {
+                background: white !important;
+            }
+
+            th {
+                background: #3498db !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            tr:nth-child(even) {
+                background: #f8f9fa !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .type {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .card-number {
+                background: #3498db !important;
+                color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .secret-card {
+                background: #ffd700 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .filters-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>🎴 Pokemon Carddass Collection Manager</h1>
+                <p>Standard Cards (1997) Part 3 & 4 - Bandai</p>
+            </div>
+            <div class="header-controls">
+                <button class="mobile-toggle" onclick="toggleMobileMode()">
+                    <span id="mobileIcon">📱</span>
+                    <span id="mobileText">Mobile</span>
+                </button>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <span id="themeIcon">🌙</span>
+                    <span id="themeText">Dark</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCards">153</div>
+                <div class="stat-label">Total Cards</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="ownedCards">0</div>
+                <div class="stat-label">Owned Cards</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="missingCards">153</div>
+                <div class="stat-label">Missing Cards</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="completionPercentage">0%</div>
+                <div class="stat-label">Completion</div>
+            </div>
+        </div>
+
+        <div class="filters-section">
+            <div class="filters-header">
+                <h3>🔍 Advanced Filters</h3>
+                <button class="filters-toggle" onclick="toggleFilters()">
+                    <span id="filtersToggleText">Hide</span>
+                </button>
+            </div>
+            <div class="filters-content" id="filtersContent">
+                <div class="filter-group">
+                    <label>Search Pokémon</label>
+                    <input type="text" class="search-box" id="searchBox" placeholder="Card name or number..." oninput="applyFilters()">
+                </div>
+                <div class="filter-group">
+                    <label>Filter by Type</label>
+                    <select class="filter-select" id="typeFilter" onchange="applyFilters()">
+                        <option value="">All Types</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Fire">Fire</option>
+                        <option value="Water">Water</option>
+                        <option value="Electric">Electric</option>
+                        <option value="Grass">Grass</option>
+                        <option value="Ice">Ice</option>
+                        <option value="Fighting">Fighting</option>
+                        <option value="Poison">Poison</option>
+                        <option value="Ground">Ground</option>
+                        <option value="Flying">Flying</option>
+                        <option value="Psychic">Psychic</option>
+                        <option value="Bug">Bug</option>
+                        <option value="Rock">Rock</option>
+                        <option value="Ghost">Ghost</option>
+                        <option value="Dragon">Dragon</option>
+                        <option value="Special">Special</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Collection Status</label>
+                    <select class="filter-select" id="ownedFilter" onchange="applyFilters()">
+                        <option value="">All Cards</option>
+                        <option value="owned">Owned Only</option>
+                        <option value="missing">Missing Only</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Card Type</label>
+                    <select class="filter-select" id="cardTypeFilter" onchange="applyFilters()">
+                        <option value="">All</option>
+                        <option value="standard">Standard</option>
+                        <option value="secret">Secret</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="view-toggle" id="viewToggle" onclick="toggleCardView()" style="display: none;">
+                📋 Table View
+            </button>
+            <button class="btn" onclick="window.print()">
+                🖨️ Print
+            </button>
+            <button class="btn" onclick="exportToExcel()">
+                📊 Excel
+            </button>
+            <button class="btn" onclick="exportToCSV()">
+                📄 CSV
+            </button>
+            <button class="btn" onclick="exportBackup()">
+                💾 Backup
+            </button>
+            <button class="btn" onclick="importBackup()">
+                📂 Import
+            </button>
+            <button class="btn btn-success" onclick="markAllOwned()">
+                ✅ Tutte
+            </button>
+            <button class="btn btn-danger" onclick="resetPurchases()">
+                🔄 Reset
+            </button>
+        </div>
+        
+        <!-- Input nascosto per il file import -->
+        <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+        
+        <div class="table-container">
+            <table id="cardTable">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Pokémon Name</th>
+                        <th>Type</th>
+                        <th>Owned</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Le carte saranno generate qui -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Card View per mobile -->
+        <div class="card-view" id="cardView">
+            <!-- Le carte saranno generate qui -->
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script>
+        // Gestione dati ibrida (memoria + localStorage con fallback)
+        let purchaseStates = {};
+
+        // Funzione per salvare i dati
+        function saveData() {
+            try {
+                localStorage.setItem('carddass_purchases', JSON.stringify(purchaseStates));
+                console.log('Dati salvati in localStorage');
+            } catch (e) {
+                console.log('localStorage non disponibile, dati mantenuti in memoria');
+            }
+        }
+
+        // Funzione per caricare i dati
+        function loadData() {
+            try {
+                const saved = localStorage.getItem('carddass_purchases');
+                if (saved) {
+                    purchaseStates = JSON.parse(saved);
+                    console.log('Dati caricati da localStorage');
+                    return;
+                }
+            } catch (e) {
+                console.log('Errore nel caricamento da localStorage');
+            }
+            
+            purchaseStates = {};
+            console.log('Inizializzazione con dati vuoti');
+        }
+
+        // Dati dei 151 Pokemon
+        const pokemonData = [
+            {num: 1, name: "Bulbasaur", type: "Grass/Poison"},
+            {num: 2, name: "Ivysaur", type: "Grass/Poison"},
+            {num: 3, name: "Venusaur", type: "Grass/Poison"},
+            {num: 4, name: "Charmander", type: "Fire"},
+            {num: 5, name: "Charmeleon", type: "Fire"},
+            {num: 6, name: "Charizard", type: "Fire/Flying"},
+            {num: 7, name: "Squirtle", type: "Water"},
+            {num: 8, name: "Wartortle", type: "Water"},
+            {num: 9, name: "Blastoise", type: "Water"},
+            {num: 10, name: "Caterpie", type: "Bug"},
+            {num: 11, name: "Metapod", type: "Bug"},
+            {num: 12, name: "Butterfree", type: "Bug/Flying"},
+            {num: 13, name: "Weedle", type: "Bug/Poison"},
+            {num: 14, name: "Kakuna", type: "Bug/Poison"},
+            {num: 15, name: "Beedrill", type: "Bug/Poison"},
+            {num: 16, name: "Pidgey", type: "Normal/Flying"},
+            {num: 17, name: "Pidgeotto", type: "Normal/Flying"},
+            {num: 18, name: "Pidgeot", type: "Normal/Flying"},
+            {num: 19, name: "Rattata", type: "Normal"},
+            {num: 20, name: "Raticate", type: "Normal"},
+            {num: 21, name: "Spearow", type: "Normal/Flying"},
+            {num: 22, name: "Fearow", type: "Normal/Flying"},
+            {num: 23, name: "Ekans", type: "Poison"},
+            {num: 24, name: "Arbok", type: "Poison"},
+            {num: 25, name: "Pikachu", type: "Electric"},
+            {num: 26, name: "Raichu", type: "Electric"},
+            {num: 27, name: "Sandshrew", type: "Ground"},
+            {num: 28, name: "Sandslash", type: "Ground"},
+            {num: 29, name: "Nidoran♀", type: "Poison"},
+            {num: 30, name: "Nidorina", type: "Poison"},
+            {num: 31, name: "Nidoqueen", type: "Poison/Ground"},
+            {num: 32, name: "Nidoran♂", type: "Poison"},
+            {num: 33, name: "Nidorino", type: "Poison"},
+            {num: 34, name: "Nidoking", type: "Poison/Ground"},
+            {num: 35, name: "Clefairy", type: "Normal"},
+            {num: 36, name: "Clefable", type: "Normal"},
+            {num: 37, name: "Vulpix", type: "Fire"},
+            {num: 38, name: "Ninetales", type: "Fire"},
+            {num: 39, name: "Jigglypuff", type: "Normal"},
+            {num: 40, name: "Wigglytuff", type: "Normal"},
+            {num: 41, name: "Zubat", type: "Poison/Flying"},
+            {num: 42, name: "Golbat", type: "Poison/Flying"},
+            {num: 43, name: "Oddish", type: "Grass/Poison"},
+            {num: 44, name: "Gloom", type: "Grass/Poison"},
+            {num: 45, name: "Vileplume", type: "Grass/Poison"},
+            {num: 46, name: "Paras", type: "Bug/Grass"},
+            {num: 47, name: "Parasect", type: "Bug/Grass"},
+            {num: 48, name: "Venonat", type: "Bug/Poison"},
+            {num: 49, name: "Venomoth", type: "Bug/Poison"},
+            {num: 50, name: "Diglett", type: "Ground"},
+            {num: 51, name: "Dugtrio", type: "Ground"},
+            {num: 52, name: "Meowth", type: "Normal"},
+            {num: 53, name: "Persian", type: "Normal"},
+            {num: 54, name: "Psyduck", type: "Water"},
+            {num: 55, name: "Golduck", type: "Water"},
+            {num: 56, name: "Mankey", type: "Fighting"},
+            {num: 57, name: "Primeape", type: "Fighting"},
+            {num: 58, name: "Growlithe", type: "Fire"},
+            {num: 59, name: "Arcanine", type: "Fire"},
+            {num: 60, name: "Poliwag", type: "Water"},
+            {num: 61, name: "Poliwhirl", type: "Water"},
+            {num: 62, name: "Poliwrath", type: "Water/Fighting"},
+            {num: 63, name: "Abra", type: "Psychic"},
+            {num: 64, name: "Kadabra", type: "Psychic"},
+            {num: 65, name: "Alakazam", type: "Psychic"},
+            {num: 66, name: "Machop", type: "Fighting"},
+            {num: 67, name: "Machoke", type: "Fighting"},
+            {num: 68, name: "Machamp", type: "Fighting"},
+            {num: 69, name: "Bellsprout", type: "Grass/Poison"},
+            {num: 70, name: "Weepinbell", type: "Grass/Poison"},
+            {num: 71, name: "Victreebel", type: "Grass/Poison"},
+            {num: 72, name: "Tentacool", type: "Water/Poison"},
+            {num: 73, name: "Tentacruel", type: "Water/Poison"},
+            {num: 74, name: "Geodude", type: "Rock/Ground"},
+            {num: 75, name: "Graveler", type: "Rock/Ground"},
+            {num: 76, name: "Golem", type: "Rock/Ground"},
+            {num: 77, name: "Ponyta", type: "Fire"},
+            {num: 78, name: "Rapidash", type: "Fire"},
+            {num: 79, name: "Slowpoke", type: "Water/Psychic"},
+            {num: 80, name: "Slowbro", type: "Water/Psychic"},
+            {num: 81, name: "Magnemite", type: "Electric"},
+            {num: 82, name: "Magneton", type: "Electric"},
+            {num: 83, name: "Farfetch'd", type: "Normal/Flying"},
+            {num: 84, name: "Doduo", type: "Normal/Flying"},
+            {num: 85, name: "Dodrio", type: "Normal/Flying"},
+            {num: 86, name: "Seel", type: "Water"},
+            {num: 87, name: "Dewgong", type: "Water/Ice"},
+            {num: 88, name: "Grimer", type: "Poison"},
+            {num: 89, name: "Muk", type: "Poison"},
+            {num: 90, name: "Shellder", type: "Water"},
+            {num: 91, name: "Cloyster", type: "Water/Ice"},
+            {num: 92, name: "Gastly", type: "Ghost/Poison"},
+            {num: 93, name: "Haunter", type: "Ghost/Poison"},
+            {num: 94, name: "Gengar", type: "Ghost/Poison"},
+            {num: 95, name: "Onix", type: "Rock/Ground"},
+            {num: 96, name: "Drowzee", type: "Psychic"},
+            {num: 97, name: "Hypno", type: "Psychic"},
+            {num: 98, name: "Krabby", type: "Water"},
+            {num: 99, name: "Kingler", type: "Water"},
+            {num: 100, name: "Voltorb", type: "Electric"},
+            {num: 101, name: "Electrode", type: "Electric"},
+            {num: 102, name: "Exeggcute", type: "Grass/Psychic"},
+            {num: 103, name: "Exeggutor", type: "Grass/Psychic"},
+            {num: 104, name: "Cubone", type: "Ground"},
+            {num: 105, name: "Marowak", type: "Ground"},
+            {num: 106, name: "Hitmonlee", type: "Fighting"},
+            {num: 107, name: "Hitmonchan", type: "Fighting"},
+            {num: 108, name: "Lickitung", type: "Normal"},
+            {num: 109, name: "Koffing", type: "Poison"},
+            {num: 110, name: "Weezing", type: "Poison"},
+            {num: 111, name: "Rhyhorn", type: "Ground/Rock"},
+            {num: 112, name: "Rhydon", type: "Ground/Rock"},
+            {num: 113, name: "Chansey", type: "Normal"},
+            {num: 114, name: "Tangela", type: "Grass"},
+            {num: 115, name: "Kangaskhan", type: "Normal"},
+            {num: 116, name: "Horsea", type: "Water"},
+            {num: 117, name: "Seadra", type: "Water"},
+            {num: 118, name: "Goldeen", type: "Water"},
+            {num: 119, name: "Seaking", type: "Water"},
+            {num: 120, name: "Staryu", type: "Water"},
+            {num: 121, name: "Starmie", type: "Water/Psychic"},
+            {num: 122, name: "Mr. Mime", type: "Psychic"},
+            {num: 123, name: "Scyther", type: "Bug/Flying"},
+            {num: 124, name: "Jynx", type: "Ice/Psychic"},
+            {num: 125, name: "Electabuzz", type: "Electric"},
+            {num: 126, name: "Magmar", type: "Fire"},
+            {num: 127, name: "Pinsir", type: "Bug"},
+            {num: 128, name: "Tauros", type: "Normal"},
+            {num: 129, name: "Magikarp", type: "Water"},
+            {num: 130, name: "Gyarados", type: "Water/Flying"},
+            {num: 131, name: "Lapras", type: "Water/Ice"},
+            {num: 132, name: "Ditto", type: "Normal"},
+            {num: 133, name: "Eevee", type: "Normal"},
+            {num: 134, name: "Vaporeon", type: "Water"},
+            {num: 135, name: "Jolteon", type: "Electric"},
+            {num: 136, name: "Flareon", type: "Fire"},
+            {num: 137, name: "Porygon", type: "Normal"},
+            {num: 138, name: "Omanyte", type: "Rock/Water"},
+            {num: 139, name: "Omastar", type: "Rock/Water"},
+            {num: 140, name: "Kabuto", type: "Rock/Water"},
+            {num: 141, name: "Kabutops", type: "Rock/Water"},
+            {num: 142, name: "Aerodactyl", type: "Rock/Flying"},
+            {num: 143, name: "Snorlax", type: "Normal"},
+            {num: 144, name: "Articuno", type: "Ice/Flying"},
+            {num: 145, name: "Zapdos", type: "Electric/Flying"},
+            {num: 146, name: "Moltres", type: "Fire/Flying"},
+            {num: 147, name: "Dratini", type: "Dragon"},
+            {num: 148, name: "Dragonair", type: "Dragon"},
+            {num: 149, name: "Dragonite", type: "Dragon/Flying"},
+            {num: 150, name: "Mewtwo", type: "Psychic"},
+            {num: 151, name: "Mew", type: "Psychic"}
+        ];
+
+        // Carte segrete
+        const secretCards = [
+            {num: "S1", name: "Secret Card 1", type: "Special"},
+            {num: "S2", name: "Secret Card 2", type: "Special"}
+        ];
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeIcon.textContent = '🌙';
+                themeText.textContent = 'Dark';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeIcon.textContent = '☀️';
+                themeText.textContent = 'Light';
+            }
+        }
+
+        function toggleMobileMode() {
+            const body = document.body;
+            const mobileIcon = document.getElementById('mobileIcon');
+            const mobileText = document.getElementById('mobileText');
+            const viewToggle = document.getElementById('viewToggle');
+            
+            if (body.classList.contains('mobile-mode')) {
+                body.classList.remove('mobile-mode');
+                body.classList.remove('card-view-active');
+                mobileIcon.textContent = '📱';
+                mobileText.textContent = 'Mobile';
+                viewToggle.style.display = 'none';
+            } else {
+                body.classList.add('mobile-mode');
+                mobileIcon.textContent = '💻';
+                mobileText.textContent = 'Desktop';
+                viewToggle.style.display = 'inline-block';
+                generateCardView();
+            }
+        }
+
+        function toggleCardView() {
+            const body = document.body;
+            const viewToggle = document.getElementById('viewToggle');
+            
+            if (body.classList.contains('card-view-active')) {
+                body.classList.remove('card-view-active');
+                viewToggle.textContent = '🃏 Card View';
+            } else {
+                body.classList.add('card-view-active');
+                viewToggle.textContent = '📋 Table View';
+                generateCardView();
+            }
+        }
+
+        function toggleFilters() {
+            const filtersContent = document.getElementById('filtersContent');
+            const toggleText = document.getElementById('filtersToggleText');
+            
+            if (filtersContent.classList.contains('hidden')) {
+                filtersContent.classList.remove('hidden');
+                toggleText.textContent = 'Hide';
+            } else {
+                filtersContent.classList.add('hidden');
+                toggleText.textContent = 'Show';
+            }
+        }
+
+        function getTypeClass(type) {
+            const primaryType = type.split('/')[0].toLowerCase();
+            return `type-${primaryType}`;
+        }
+
+        function createTypeSpan(type) {
+            const types = type.split('/');
+            return types.map(t => `<span class="type ${getTypeClass(t)}">${t}</span>`).join('');
+        }
+
+        function generateTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            // Aggiungi carte standard
+            pokemonData.forEach(pokemon => {
+                const row = tbody.insertRow();
+                const purchaseId = `purchase_${pokemon.num}`;
+                row.setAttribute('data-card-type', 'standard');
+                row.setAttribute('data-pokemon-name', pokemon.name.toLowerCase());
+                row.setAttribute('data-type', pokemon.type.toLowerCase());
+                
+                row.innerHTML = `
+                    <td><span class="card-number">${pokemon.num.toString().padStart(3, '0')}</span></td>
+                    <td class="pokemon-name">${pokemon.name}</td>
+                    <td>${createTypeSpan(pokemon.type)}</td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" class="purchase-checkbox" id="${purchaseId}" 
+                               onchange="savePurchaseState('${purchaseId}', this.checked); updateStats(); updateCardView('${purchaseId}');">
+                    </td>
+                `;
+            });
+
+            // Aggiungi carte segrete
+            secretCards.forEach(card => {
+                const row = tbody.insertRow();
+                const purchaseId = `purchase_${card.num}`;
+                row.className = 'secret-card';
+                row.setAttribute('data-card-type', 'secret');
+                row.setAttribute('data-pokemon-name', card.name.toLowerCase());
+                row.setAttribute('data-type', card.type.toLowerCase());
+                
+                row.innerHTML = `
+                    <td><span class="card-number" style="background: #e74c3c;">${card.num}</span></td>
+                    <td class="pokemon-name">${card.name}</td>
+                    <td><span class="type type-special">${card.type}</span></td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" class="purchase-checkbox" id="${purchaseId}" 
+                               onchange="savePurchaseState('${purchaseId}', this.checked); updateStats(); updateCardView('${purchaseId}');">
+                    </td>
+                `;
+            });
+
+            loadPurchaseStates();
+            updateStats();
+        }
+
+        function generateCardView() {
+            const cardView = document.getElementById('cardView');
+            cardView.innerHTML = '';
+
+            // Genera carte standard
+            pokemonData.forEach(pokemon => {
+                const purchaseId = `purchase_${pokemon.num}`;
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'pokemon-card';
+                cardDiv.setAttribute('data-card-type', 'standard');
+                cardDiv.setAttribute('data-pokemon-name', pokemon.name.toLowerCase());
+                cardDiv.setAttribute('data-type', pokemon.type.toLowerCase());
+                cardDiv.id = `card_${purchaseId}`;
+                
+                cardDiv.innerHTML = `
+                    <div class="card-info">
+                        <div class="pokemon-name">${pokemon.name}</div>
+                        <span class="card-number">${pokemon.num.toString().padStart(3, '0')}</span>
+                        <div>${createTypeSpan(pokemon.type)}</div>
+                    </div>
+                    <input type="checkbox" class="card-checkbox" id="${purchaseId}_card" 
+                           onchange="syncCheckbox('${purchaseId}', this.checked);">
+                `;
+                
+                cardView.appendChild(cardDiv);
+            });
+
+            // Genera carte segrete
+            secretCards.forEach(card => {
+                const purchaseId = `purchase_${card.num}`;
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'pokemon-card secret-card';
+                cardDiv.setAttribute('data-card-type', 'secret');
+                cardDiv.setAttribute('data-pokemon-name', card.name.toLowerCase());
+                cardDiv.setAttribute('data-type', card.type.toLowerCase());
+                cardDiv.id = `card_${purchaseId}`;
+                
+                cardDiv.innerHTML = `
+                    <div class="card-info">
+                        <div class="pokemon-name">${card.name}</div>
+                        <span class="card-number" style="background: #e74c3c;">${card.num}</span>
+                        <div><span class="type type-special">${card.type}</span></div>
+                    </div>
+                    <input type="checkbox" class="card-checkbox" id="${purchaseId}_card" 
+                           onchange="syncCheckbox('${purchaseId}', this.checked);">
+                `;
+                
+                cardView.appendChild(cardDiv);
+            });
+
+            // Sincronizza lo stato dei checkbox
+            syncAllCheckboxes();
+        }
+
+        function syncCheckbox(purchaseId, checked) {
+            const tableCheckbox = document.getElementById(purchaseId);
+            const cardCheckbox = document.getElementById(purchaseId + '_card');
+            
+            if (tableCheckbox) tableCheckbox.checked = checked;
+            if (cardCheckbox) cardCheckbox.checked = checked;
+            
+            savePurchaseState(purchaseId, checked);
+            updateStats();
+            updateCardView(purchaseId);
+        }
+
+        function syncAllCheckboxes() {
+            Object.keys(purchaseStates).forEach(purchaseId => {
+                const isChecked = purchaseStates[purchaseId];
+                const tableCheckbox = document.getElementById(purchaseId);
+                const cardCheckbox = document.getElementById(purchaseId + '_card');
+                
+                if (tableCheckbox) tableCheckbox.checked = isChecked;
+                if (cardCheckbox) cardCheckbox.checked = isChecked;
+                
+                updateCardView(purchaseId);
+            });
+        }
+
+        function updateCardView(purchaseId) {
+            const cardDiv = document.getElementById(`card_${purchaseId}`);
+            const isOwned = purchaseStates[purchaseId] || false;
+            
+            if (cardDiv) {
+                if (isOwned) {
+                    cardDiv.classList.add('owned');
+                } else {
+                    cardDiv.classList.remove('owned');
+                }
+            }
+        }
+
+        function updateStats() {
+            const totalCards = pokemonData.length + secretCards.length;
+            const checkboxes = document.querySelectorAll('.purchase-checkbox');
+            const ownedCards = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const missingCards = totalCards - ownedCards;
+            const completionPercentage = Math.round((ownedCards / totalCards) * 100);
+
+            document.getElementById('totalCards').textContent = totalCards;
+            document.getElementById('ownedCards').textContent = ownedCards;
+            document.getElementById('missingCards').textContent = missingCards;
+            document.getElementById('completionPercentage').textContent = `${completionPercentage}%`;
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const typeFilter = document.getElementById('typeFilter').value.toLowerCase();
+            const ownedFilter = document.getElementById('ownedFilter').value;
+            const cardTypeFilter = document.getElementById('cardTypeFilter').value;
+            const rows = document.querySelectorAll('#tableBody tr');
+            const cards = document.querySelectorAll('.pokemon-card');
+            
+            // Filtra righe tabella
+            rows.forEach(row => {
+                const pokemonName = row.getAttribute('data-pokemon-name');
+                const cardType = row.getAttribute('data-card-type');
+                const types = row.getAttribute('data-type');
+                const cardNumber = row.querySelector('.card-number').textContent;
+                const checkbox = row.querySelector('.purchase-checkbox');
+                const isOwned = checkbox.checked;
+                
+                let showRow = true;
+                
+                // Filtro ricerca
+                if (searchTerm && !pokemonName.includes(searchTerm) && !cardNumber.includes(searchTerm)) {
+                    showRow = false;
+                }
+                
+                // Filtro tipo
+                if (typeFilter && !types.includes(typeFilter)) {
+                    showRow = false;
+                }
+                
+                // Filtro possedute/mancanti
+                if (ownedFilter === 'owned' && !isOwned) {
+                    showRow = false;
+                } else if (ownedFilter === 'missing' && isOwned) {
+                    showRow = false;
+                }
+                
+                // Filtro tipo carta
+                if (cardTypeFilter && cardType !== cardTypeFilter) {
+                    showRow = false;
+                }
+                
+                row.style.display = showRow ? '' : 'none';
+            });
+
+            // Filtra carte nella vista mobile
+            cards.forEach(card => {
+                const pokemonName = card.getAttribute('data-pokemon-name');
+                const cardType = card.getAttribute('data-card-type');
+                const types = card.getAttribute('data-type');
+                const cardNumber = card.querySelector('.card-number').textContent;
+                const checkbox = card.querySelector('.card-checkbox');
+                const isOwned = checkbox.checked;
+                
+                let showCard = true;
+                
+                // Filtro ricerca
+                if (searchTerm && !pokemonName.includes(searchTerm) && !cardNumber.includes(searchTerm)) {
+                    showCard = false;
+                }
+                
+                // Filtro tipo
+                if (typeFilter && !types.includes(typeFilter)) {
+                    showCard = false;
+                }
+                
+                // Filtro possedute/mancanti
+                if (ownedFilter === 'owned' && !isOwned) {
+                    showCard = false;
+                } else if (ownedFilter === 'missing' && isOwned) {
+                    showCard = false;
+                }
+                
+                // Filtro tipo carta
+                if (cardTypeFilter && cardType !== cardTypeFilter) {
+                    showCard = false;
+                }
+                
+                card.style.display = showCard ? '' : 'none';
+            });
+        }
+
+        function savePurchaseState(id, checked) {
+            purchaseStates[id] = checked;
+            saveData();
+        }
+
+        function loadPurchaseStates() {
+            loadData();
+            Object.keys(purchaseStates).forEach(id => {
+                const checkbox = document.getElementById(id);
+                const cardCheckbox = document.getElementById(id + '_card');
+                if (checkbox) {
+                    checkbox.checked = purchaseStates[id];
+                }
+                if (cardCheckbox) {
+                    cardCheckbox.checked = purchaseStates[id];
+                }
+                updateCardView(id);
+            });
+        }
+
+        function resetPurchases() {
+            if (confirm('Are you sure you want to reset all data?')) {
+                purchaseStates = {};
+                try {
+                    localStorage.removeItem('carddass_purchases');
+                } catch (e) {
+                    console.log('Errore nella rimozione da localStorage');
+                }
+                document.querySelectorAll('.purchase-checkbox').forEach(cb => cb.checked = false);
+                document.querySelectorAll('.card-checkbox').forEach(cb => cb.checked = false);
+                document.querySelectorAll('.pokemon-card').forEach(card => {
+                    card.classList.remove('owned');
+                });
+                updateStats();
+            }
+        }
+
+        function markAllOwned() {
+            if (confirm('Do you want to mark all cards as owned?')) {
+                document.querySelectorAll('.purchase-checkbox').forEach(cb => {
+                    cb.checked = true;
+                    savePurchaseState(cb.id, true);
+                });
+                document.querySelectorAll('.card-checkbox').forEach(cb => {
+                    cb.checked = true;
+                });
+                document.querySelectorAll('.pokemon-card').forEach(card => {
+                    card.classList.add('owned');
+                });
+                updateStats();
+            }
+        }
+
+        // Funzioni per backup JSON
+        function exportBackup() {
+            const backupData = {
+                version: "1.0",
+                timestamp: new Date().toISOString(),
+                totalCards: pokemonData.length + secretCards.length,
+                purchaseStates: purchaseStates,
+                statistics: {
+                    owned: Object.values(purchaseStates).filter(Boolean).length,
+                    completion: Math.round((Object.values(purchaseStates).filter(Boolean).length / (pokemonData.length + secretCards.length)) * 100)
+                }
+            };
+
+            const dataStr = JSON.stringify(backupData, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `Pokemon_Carddass_Backup_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            alert('✅ Backup created successfully!');
+        }
+
+        function importBackup() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!file.name.endsWith('.json')) {
+                alert('⚠️ Please select a valid JSON file.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const backupData = JSON.parse(e.target.result);
+                    
+                    // Validazione del backup
+                    if (!backupData.purchaseStates) {
+                        throw new Error('File backup non valido: mancano i dati delle carte');
+                    }
+
+                    // Conferma prima dell'import
+                    const importInfo = `
+📊 BACKUP INFORMATION:
+- Date: ${backupData.timestamp ? new Date(backupData.timestamp).toLocaleString('it-IT') : 'Non disponibile'}
+- Owned cards: ${backupData.statistics?.owned || 'Non disponibile'}
+- Completion: ${backupData.statistics?.completion || 'Non disponibile'}%
+
+⚠️ WARNING: This will replace all current data!
+Do you want to proceed with the import?`;
+
+                    if (confirm(importInfo)) {
+                        purchaseStates = backupData.purchaseStates;
+                        saveData();
+                        loadPurchaseStates();
+                        syncAllCheckboxes();
+                        updateStats();
+                        alert('✅ Backup imported successfully!');
+                    }
+                } catch (error) {
+                    alert('❌ Errore nell\'importazione del backup:\n' + error.message);
+                }
+            };
+            
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        function exportToExcel() {
+            if (typeof XLSX === 'undefined') {
+                alert('Excel library not loaded!');
+                return;
+            }
+
+            const workbook = XLSX.utils.book_new();
+            const data = [['Number', 'Nome', 'Type', 'Owned']];
+            
+            pokemonData.forEach(pokemon => {
+                const checkbox = document.getElementById(`purchase_${pokemon.num}`);
+                const owned = checkbox ? checkbox.checked : false;
+                data.push([
+                    pokemon.num.toString().padStart(3, '0'),
+                    pokemon.name,
+                    pokemon.type,
+                    owned ? 'Yes' : 'No'
+                ]);
+            });
+
+            secretCards.forEach(card => {
+                const checkbox = document.getElementById(`purchase_${card.num}`);
+                const owned = checkbox ? checkbox.checked : false;
+                data.push([
+                    card.num,
+                    card.name,
+                    card.type,
+                    owned ? 'Yes' : 'No'
+                ]);
+            });
+
+            const worksheet = XLSX.utils.aoa_to_sheet(data);
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Carddass');
+            XLSX.writeFile(workbook, 'Pokemon_Carddass_Collection.xlsx');
+        }
+
+        function exportToCSV() {
+            let csv = 'Number,Nome,Type,Owned\n';
+            
+            pokemonData.forEach(pokemon => {
+                const checkbox = document.getElementById(`purchase_${pokemon.num}`);
+                const owned = checkbox ? checkbox.checked : false;
+                csv += `${pokemon.num.toString().padStart(3, '0')},"${pokemon.name}","${pokemon.type}","${owned ? 'Yes' : 'No'}"\n`;
+            });
+
+            secretCards.forEach(card => {
+                const checkbox = document.getElementById(`purchase_${card.num}`);
+                const owned = checkbox ? checkbox.checked : false;
+                csv += `${card.num},"${card.name}","${card.type}","${owned ? 'Yes' : 'No'}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'Pokemon_Carddass_Collection.csv';
+            link.click();
+        }
+
+        // Inizializza tutto quando la pagina è caricata
+        document.addEventListener('DOMContentLoaded', function() {
+            generateTable();
+            
+            // Show un messaggio di stato del salvataggio
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                console.log('✅ LocalStorage disponibile - i dati saranno persistenti');
+            } catch (e) {
+                console.log('⚠️ LocalStorage non disponibile - i dati saranno mantenuti solo in sessione');
+                // Opzionalmente potresti mostrare un avviso all'utente
+                setTimeout(() => {
+                    if (confirm('⚠️ WARNING: The browser cannot save data permanently.\nYour data will be lost when closing the page.\n\nDo you want to download a safety backup now?')) {
+                        exportBackup();
+                    }
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
