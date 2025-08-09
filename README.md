@@ -148,12 +148,6 @@ If this tool has helped you organize your collection and you'd like to support i
 
 </div>
 
-**💰 What donations help with:**
-- ⏰ Development time for new features
-- 🖥️ Testing across different devices and browsers  
-- 📚 Research for additional card series support
-- ☕ Caffeine for late-night coding sessions
-
 ## 📄 License & Disclaimer
 
 ### 🎮 Trademark Notice
