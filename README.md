@@ -26,6 +26,20 @@ It works well enough for what I need.
 
 ---
 
+## Demo
+
+You can try out the live demo of this project right here:  
+[Pokédass-Manager Demo](https://stinocon.github.io/Pok-dass-Manager/index.html)  
+
+Heads-up: since this is a pure static HTML page with **no backend or database**, all your data is stored locally in your browser (probably via localStorage or something similar).  
+That means **if you reboot your PC, clear your browser cache, switch browsers, or just decide to live dangerously**, all your saved card data will vanish into the void—poof, gone.  
+
+So, if you care about your collection data, make sure to **back up your files manually** before doing any of the above. Use the export or save options provided (if any), or just copy-paste your data somewhere safe.  
+
+Basically: demo use is **at your own risk**. No server magic here, just pure static magic.
+
+---
+
 ## Disclaimer
 
 Pokémon, Pokémon character names, and related trademarks are the property of Nintendo, Creatures Inc., and Game Freak Inc.  
