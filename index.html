@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,7 +49,7 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: var(--bg-primary);
             border-radius: 20px;
@@ -121,35 +121,39 @@
         .mobile-mode .header {
             flex-direction: column;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .mobile-mode .stats-container {
             display: flex;
             overflow-x: auto;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
         }
 
         .mobile-mode .stat-card {
-            min-width: 140px;
-            padding: 15px;
+            min-width: 100px;
+            padding: 10px;
             flex-shrink: 0;
         }
 
         .mobile-mode .stat-number {
-            font-size: 1.8em;
+            font-size: 1.4em;
+        }
+
+        .mobile-mode .stat-label {
+            font-size: 0.8em;
         }
 
         .mobile-mode .filters-section {
-            padding: 15px;
-            margin-bottom: 15px;
+            padding: 10px;
+            margin-bottom: 10px;
         }
 
         .mobile-mode .filters-content {
             grid-template-columns: 1fr;
-            gap: 10px;
+            gap: 8px;
         }
 
         .mobile-mode .controls {
@@ -158,54 +162,72 @@
             left: 0;
             right: 0;
             background: var(--bg-primary);
-            padding: 15px;
-            border-top: 2px solid var(--border-color);
-            box-shadow: 0 -5px 20px var(--shadow);
+            padding: 8px;
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -2px 10px var(--shadow);
             z-index: 1000;
-            overflow-x: auto;
-            flex-wrap: nowrap;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            max-height: 120px;
+            overflow-y: auto;
         }
 
         .mobile-mode .controls .btn {
-            padding: 8px 12px;
-            font-size: 12px;
+            padding: 6px 8px;
+            font-size: 10px;
             white-space: nowrap;
-            min-width: fit-content;
+            min-width: 60px;
+            border-radius: 15px;
+            gap: 4px;
+            justify-content: center;
         }
 
-        .mobile-mode .table-container {
-            margin-bottom: 80px; /* Space for fixed controls */
+        .mobile-mode .controls .view-toggle {
+            padding: 6px 8px;
+            font-size: 10px;
+            border-radius: 15px;
+        }
+
+        .mobile-mode .table-container, .mobile-mode .card-view {
+            margin-bottom: 130px;
             border-radius: 10px;
         }
 
         .mobile-mode table {
-            font-size: 12px;
+            font-size: 10px;
         }
 
         .mobile-mode th, .mobile-mode td {
-            padding: 8px 6px;
+            padding: 4px 2px;
         }
 
         .mobile-mode .card-number {
-            padding: 4px 8px;
-            font-size: 10px;
-            min-width: 30px;
+            padding: 2px 4px;
+            font-size: 8px;
+            min-width: 20px;
         }
 
         .mobile-mode .pokemon-name {
-            font-size: 13px;
+            font-size: 10px;
         }
 
         .mobile-mode .type {
-            padding: 2px 6px;
-            font-size: 9px;
-            margin-right: 2px;
+            padding: 1px 3px;
+            font-size: 7px;
+            margin-right: 1px;
         }
 
-        .mobile-mode .purchase-checkbox {
-            width: 24px;
-            height: 24px;
-            transform: scale(1.4);
+        .mobile-mode .purchase-checkbox, .mobile-mode .order-checkbox {
+            width: 16px;
+            height: 16px;
+            transform: scale(1);
+        }
+
+        .mobile-mode .grading-select {
+            font-size: 8px;
+            padding: 2px;
+            width: 50px;
         }
 
         /* Card View Mode for Mobile */
@@ -224,12 +246,12 @@
         .pokemon-card {
             background: var(--bg-secondary);
             border: 2px solid var(--border-color);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 10px;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             transition: all 0.3s ease;
         }
 
@@ -247,18 +269,25 @@
         }
 
         .card-info .pokemon-name {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .card-info .card-number {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+        }
+
+        .card-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
         }
 
         .card-checkbox {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             accent-color: #3498db;
             cursor: pointer;
         }
@@ -443,7 +472,7 @@
         }
         
         th {
-            padding: 18px 15px;
+            padding: 18px 12px;
             text-align: left;
             font-weight: 600;
             position: sticky;
@@ -451,7 +480,7 @@
         }
         
         td {
-            padding: 12px 15px;
+            padding: 12px;
             border-bottom: 1px solid var(--border-color);
         }
         
@@ -512,13 +541,39 @@
             text-align: center;
         }
         
-        .purchase-checkbox {
+        .purchase-checkbox, .order-checkbox {
             width: 20px;
             height: 20px;
             accent-color: #3498db;
             cursor: pointer;
             transform: scale(1.2);
         }
+
+        .order-checkbox {
+            accent-color: #f39c12;
+        }
+
+        .grading-select {
+            padding: 6px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 12px;
+            cursor: pointer;
+            min-width: 80px;
+        }
+
+        .grading-select:focus {
+            outline: none;
+            border-color: var(--border-hover);
+        }
+
+        .grading-raw { background-color: #ecf0f1; }
+        .grading-psa { background-color: #e8f5e8; }
+        .grading-bgs { background-color: #e8f4fd; }
+        .grading-cgc { background-color: #fff2e8; }
+        .grading-sgc { background-color: #f8e8ff; }
         
         .secret-card {
             background: linear-gradient(45deg, #ffd700, #ffed4e) !important;
@@ -533,7 +588,7 @@
             display: none !important;
         }
 
-        /* Stili per la stampa */
+        /* Print styles */
         @media print {
             body {
                 background: white !important;
@@ -665,6 +720,10 @@
                 <div class="stat-label">Owned Cards</div>
             </div>
             <div class="stat-card">
+                <div class="stat-number" id="orderedCards">0</div>
+                <div class="stat-label">Ordered Cards</div>
+            </div>
+            <div class="stat-card">
                 <div class="stat-number" id="missingCards">153</div>
                 <div class="stat-label">Missing Cards</div>
             </div>
@@ -683,13 +742,13 @@
             </div>
             <div class="filters-content" id="filtersContent">
                 <div class="filter-group">
-                    <label>Search Pokémon</label>
-                    <input type="text" class="search-box" id="searchBox" placeholder="Card name or number..." oninput="applyFilters()">
+                    <label>Search Pokemon</label>
+                    <input type="text" class="search-box" id="searchBox" placeholder="Name or card number..." oninput="applyFilters()">
                 </div>
                 <div class="filter-group">
                     <label>Filter by Type</label>
                     <select class="filter-select" id="typeFilter" onchange="applyFilters()">
-                        <option value="">All Types</option>
+                        <option value="">All types</option>
                         <option value="Normal">Normal</option>
                         <option value="Fire">Fire</option>
                         <option value="Water">Water</option>
@@ -711,9 +770,10 @@
                 <div class="filter-group">
                     <label>Collection Status</label>
                     <select class="filter-select" id="ownedFilter" onchange="applyFilters()">
-                        <option value="">All Cards</option>
-                        <option value="owned">Owned Only</option>
-                        <option value="missing">Missing Only</option>
+                        <option value="">All cards</option>
+                        <option value="owned">Only owned</option>
+                        <option value="ordered">Only ordered</option>
+                        <option value="missing">Only missing</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -722,6 +782,17 @@
                         <option value="">All</option>
                         <option value="standard">Standard</option>
                         <option value="secret">Secret</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Grading Status</label>
+                    <select class="filter-select" id="gradingFilter" onchange="applyFilters()">
+                        <option value="">All conditions</option>
+                        <option value="raw">Raw only</option>
+                        <option value="psa">PSA graded</option>
+                        <option value="bgs">BGS graded</option>
+                        <option value="cgc">CGC graded</option>
+                        <option value="sgc">SGC graded</option>
                     </select>
                 </div>
             </div>
@@ -747,14 +818,14 @@
                 📂 Import
             </button>
             <button class="btn btn-success" onclick="markAllOwned()">
-                ✅ Tutte
+                ✅ All Owned
             </button>
-            <button class="btn btn-danger" onclick="resetPurchases()">
+            <button class="btn btn-danger" onclick="resetCollection()">
                 🔄 Reset
             </button>
         </div>
         
-        <!-- Input nascosto per il file import -->
+        <!-- Hidden file input for import -->
         <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="handleFileImport(event)">
         
         <div class="table-container">
@@ -762,56 +833,58 @@
                 <thead>
                     <tr>
                         <th>Number</th>
-                        <th>Pokémon Name</th>
+                        <th>Pokemon Name</th>
                         <th>Type</th>
                         <th>Owned</th>
+                        <th>Ordered</th>
+                        <th>Condition</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    <!-- Le carte saranno generate qui -->
+                    <!-- Cards will be generated here -->
                 </tbody>
             </table>
         </div>
 
-        <!-- Card View per mobile -->
+        <!-- Card View for mobile -->
         <div class="card-view" id="cardView">
-            <!-- Le carte saranno generate qui -->
+            <!-- Cards will be generated here -->
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
-        // Gestione dati ibrida (memoria + localStorage con fallback)
-        let purchaseStates = {};
+        // Hybrid data management (memory + localStorage with fallback)
+        let collectionData = {};
 
-        // Funzione per salvare i dati
+        // Save data function
         function saveData() {
             try {
-                localStorage.setItem('carddass_purchases', JSON.stringify(purchaseStates));
-                console.log('Dati salvati in localStorage');
+                localStorage.setItem('carddass_collection', JSON.stringify(collectionData));
+                console.log('Data saved to localStorage');
             } catch (e) {
-                console.log('localStorage non disponibile, dati mantenuti in memoria');
+                console.log('localStorage not available, data kept in memory');
             }
         }
 
-        // Funzione per caricare i dati
+        // Load data function
         function loadData() {
             try {
-                const saved = localStorage.getItem('carddass_purchases');
+                const saved = localStorage.getItem('carddass_collection');
                 if (saved) {
-                    purchaseStates = JSON.parse(saved);
-                    console.log('Dati caricati da localStorage');
+                    collectionData = JSON.parse(saved);
+                    console.log('Data loaded from localStorage');
                     return;
                 }
             } catch (e) {
-                console.log('Errore nel caricamento da localStorage');
+                console.log('Error loading from localStorage');
             }
             
-            purchaseStates = {};
-            console.log('Inizializzazione con dati vuoti');
+            collectionData = {};
+            console.log('Initialized with empty data');
         }
 
-        // Dati dei 151 Pokemon
+        // Pokemon data (151 Pokemon)
         const pokemonData = [
             {num: 1, name: "Bulbasaur", type: "Grass/Poison"},
             {num: 2, name: "Ivysaur", type: "Grass/Poison"},
@@ -966,7 +1039,7 @@
             {num: 151, name: "Mew", type: "Psychic"}
         ];
 
-        // Carte segrete
+        // Secret cards
         const secretCards = [
             {num: "S1", name: "Secret Card 1", type: "Special"},
             {num: "S2", name: "Secret Card 2", type: "Special"}
@@ -1050,10 +1123,10 @@
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
 
-            // Aggiungi carte standard
+            // Add standard cards
             pokemonData.forEach(pokemon => {
                 const row = tbody.insertRow();
-                const purchaseId = `purchase_${pokemon.num}`;
+                const cardId = `card_${pokemon.num}`;
                 row.setAttribute('data-card-type', 'standard');
                 row.setAttribute('data-pokemon-name', pokemon.name.toLowerCase());
                 row.setAttribute('data-type', pokemon.type.toLowerCase());
@@ -1063,16 +1136,30 @@
                     <td class="pokemon-name">${pokemon.name}</td>
                     <td>${createTypeSpan(pokemon.type)}</td>
                     <td class="checkbox-container">
-                        <input type="checkbox" class="purchase-checkbox" id="${purchaseId}" 
-                               onchange="savePurchaseState('${purchaseId}', this.checked); updateStats(); updateCardView('${purchaseId}');">
+                        <input type="checkbox" class="purchase-checkbox" id="${cardId}_owned" 
+                               onchange="updateCardData('${cardId}', 'owned', this.checked);">
+                    </td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" class="order-checkbox" id="${cardId}_ordered" 
+                               onchange="updateCardData('${cardId}', 'ordered', this.checked);">
+                    </td>
+                    <td class="checkbox-container">
+                        <select class="grading-select" id="${cardId}_grading" 
+                                onchange="updateCardData('${cardId}', 'grading', this.value);">
+                            <option value="raw">Raw</option>
+                            <option value="psa">PSA</option>
+                            <option value="bgs">BGS</option>
+                            <option value="cgc">CGC</option>
+                            <option value="sgc">SGC</option>
+                        </select>
                     </td>
                 `;
             });
 
-            // Aggiungi carte segrete
+            // Add secret cards
             secretCards.forEach(card => {
                 const row = tbody.insertRow();
-                const purchaseId = `purchase_${card.num}`;
+                const cardId = `card_${card.num}`;
                 row.className = 'secret-card';
                 row.setAttribute('data-card-type', 'secret');
                 row.setAttribute('data-pokemon-name', card.name.toLowerCase());
@@ -1083,13 +1170,27 @@
                     <td class="pokemon-name">${card.name}</td>
                     <td><span class="type type-special">${card.type}</span></td>
                     <td class="checkbox-container">
-                        <input type="checkbox" class="purchase-checkbox" id="${purchaseId}" 
-                               onchange="savePurchaseState('${purchaseId}', this.checked); updateStats(); updateCardView('${purchaseId}');">
+                        <input type="checkbox" class="purchase-checkbox" id="${cardId}_owned" 
+                               onchange="updateCardData('${cardId}', 'owned', this.checked);">
+                    </td>
+                    <td class="checkbox-container">
+                        <input type="checkbox" class="order-checkbox" id="${cardId}_ordered" 
+                               onchange="updateCardData('${cardId}', 'ordered', this.checked);">
+                    </td>
+                    <td class="checkbox-container">
+                        <select class="grading-select" id="${cardId}_grading" 
+                                onchange="updateCardData('${cardId}', 'grading', this.value);">
+                            <option value="raw">Raw</option>
+                            <option value="psa">PSA</option>
+                            <option value="bgs">BGS</option>
+                            <option value="cgc">CGC</option>
+                            <option value="sgc">SGC</option>
+                        </select>
                     </td>
                 `;
             });
 
-            loadPurchaseStates();
+            loadCollectionData();
             updateStats();
         }
 
@@ -1097,15 +1198,15 @@
             const cardView = document.getElementById('cardView');
             cardView.innerHTML = '';
 
-            // Genera carte standard
+            // Generate standard cards
             pokemonData.forEach(pokemon => {
-                const purchaseId = `purchase_${pokemon.num}`;
+                const cardId = `card_${pokemon.num}`;
                 const cardDiv = document.createElement('div');
                 cardDiv.className = 'pokemon-card';
                 cardDiv.setAttribute('data-card-type', 'standard');
                 cardDiv.setAttribute('data-pokemon-name', pokemon.name.toLowerCase());
                 cardDiv.setAttribute('data-type', pokemon.type.toLowerCase());
-                cardDiv.id = `card_${purchaseId}`;
+                cardDiv.id = `${cardId}_card`;
                 
                 cardDiv.innerHTML = `
                     <div class="card-info">
@@ -1113,22 +1214,36 @@
                         <span class="card-number">${pokemon.num.toString().padStart(3, '0')}</span>
                         <div>${createTypeSpan(pokemon.type)}</div>
                     </div>
-                    <input type="checkbox" class="card-checkbox" id="${purchaseId}_card" 
-                           onchange="syncCheckbox('${purchaseId}', this.checked);">
+                    <div class="card-controls">
+                        <input type="checkbox" class="card-checkbox" id="${cardId}_owned_card" 
+                               onchange="syncCardData('${cardId}', 'owned', this.checked);">
+                        <label style="font-size: 10px;">Owned</label>
+                        <input type="checkbox" class="card-checkbox" id="${cardId}_ordered_card" 
+                               onchange="syncCardData('${cardId}', 'ordered', this.checked);">
+                        <label style="font-size: 10px;">Ordered</label>
+                        <select class="grading-select" id="${cardId}_grading_card" style="font-size: 9px; width: 60px;"
+                                onchange="syncCardData('${cardId}', 'grading', this.value);">
+                            <option value="raw">Raw</option>
+                            <option value="psa">PSA</option>
+                            <option value="bgs">BGS</option>
+                            <option value="cgc">CGC</option>
+                            <option value="sgc">SGC</option>
+                        </select>
+                    </div>
                 `;
                 
                 cardView.appendChild(cardDiv);
             });
 
-            // Genera carte segrete
+            // Generate secret cards
             secretCards.forEach(card => {
-                const purchaseId = `purchase_${card.num}`;
+                const cardId = `card_${card.num}`;
                 const cardDiv = document.createElement('div');
                 cardDiv.className = 'pokemon-card secret-card';
                 cardDiv.setAttribute('data-card-type', 'secret');
                 cardDiv.setAttribute('data-pokemon-name', card.name.toLowerCase());
                 cardDiv.setAttribute('data-type', card.type.toLowerCase());
-                cardDiv.id = `card_${purchaseId}`;
+                cardDiv.id = `${cardId}_card`;
                 
                 cardDiv.innerHTML = `
                     <div class="card-info">
@@ -1136,45 +1251,73 @@
                         <span class="card-number" style="background: #e74c3c;">${card.num}</span>
                         <div><span class="type type-special">${card.type}</span></div>
                     </div>
-                    <input type="checkbox" class="card-checkbox" id="${purchaseId}_card" 
-                           onchange="syncCheckbox('${purchaseId}', this.checked);">
+                    <div class="card-controls">
+                        <input type="checkbox" class="card-checkbox" id="${cardId}_owned_card" 
+                               onchange="syncCardData('${cardId}', 'owned', this.checked);">
+                        <label style="font-size: 10px;">Owned</label>
+                        <input type="checkbox" class="card-checkbox" id="${cardId}_ordered_card" 
+                               onchange="syncCardData('${cardId}', 'ordered', this.checked);">
+                        <label style="font-size: 10px;">Ordered</label>
+                        <select class="grading-select" id="${cardId}_grading_card" style="font-size: 9px; width: 60px;"
+                                onchange="syncCardData('${cardId}', 'grading', this.value);">
+                            <option value="raw">Raw</option>
+                            <option value="psa">PSA</option>
+                            <option value="bgs">BGS</option>
+                            <option value="cgc">CGC</option>
+                            <option value="sgc">SGC</option>
+                        </select>
+                    </div>
                 `;
                 
                 cardView.appendChild(cardDiv);
             });
 
-            // Sincronizza lo stato dei checkbox
-            syncAllCheckboxes();
+            syncAllCardData();
         }
 
-        function syncCheckbox(purchaseId, checked) {
-            const tableCheckbox = document.getElementById(purchaseId);
-            const cardCheckbox = document.getElementById(purchaseId + '_card');
-            
-            if (tableCheckbox) tableCheckbox.checked = checked;
-            if (cardCheckbox) cardCheckbox.checked = checked;
-            
-            savePurchaseState(purchaseId, checked);
+        function updateCardData(cardId, field, value) {
+            if (!collectionData[cardId]) {
+                collectionData[cardId] = { owned: false, ordered: false, grading: 'raw' };
+            }
+            collectionData[cardId][field] = value;
+            saveData();
             updateStats();
-            updateCardView(purchaseId);
+            updateCardVisualState(cardId);
+            
+            // Sync with card view if exists
+            const cardElement = document.getElementById(`${cardId}_${field}_card`);
+            if (cardElement) {
+                if (field === 'grading') {
+                    cardElement.value = value;
+                } else {
+                    cardElement.checked = value;
+                }
+            }
         }
 
-        function syncAllCheckboxes() {
-            Object.keys(purchaseStates).forEach(purchaseId => {
-                const isChecked = purchaseStates[purchaseId];
-                const tableCheckbox = document.getElementById(purchaseId);
-                const cardCheckbox = document.getElementById(purchaseId + '_card');
-                
-                if (tableCheckbox) tableCheckbox.checked = isChecked;
-                if (cardCheckbox) cardCheckbox.checked = isChecked;
-                
-                updateCardView(purchaseId);
-            });
+        function syncCardData(cardId, field, value) {
+            if (!collectionData[cardId]) {
+                collectionData[cardId] = { owned: false, ordered: false, grading: 'raw' };
+            }
+            collectionData[cardId][field] = value;
+            saveData();
+            updateStats();
+            updateCardVisualState(cardId);
+            
+            // Sync with table view
+            const tableElement = document.getElementById(`${cardId}_${field}`);
+            if (tableElement) {
+                if (field === 'grading') {
+                    tableElement.value = value;
+                } else {
+                    tableElement.checked = value;
+                }
+            }
         }
 
-        function updateCardView(purchaseId) {
-            const cardDiv = document.getElementById(`card_${purchaseId}`);
-            const isOwned = purchaseStates[purchaseId] || false;
+        function updateCardVisualState(cardId) {
+            const cardDiv = document.getElementById(`${cardId}_card`);
+            const isOwned = collectionData[cardId]?.owned || false;
             
             if (cardDiv) {
                 if (isOwned) {
@@ -1185,15 +1328,48 @@
             }
         }
 
+        function syncAllCardData() {
+            Object.keys(collectionData).forEach(cardId => {
+                const data = collectionData[cardId];
+                
+                // Sync table elements
+                const ownedElement = document.getElementById(`${cardId}_owned`);
+                const orderedElement = document.getElementById(`${cardId}_ordered`);
+                const gradingElement = document.getElementById(`${cardId}_grading`);
+                
+                if (ownedElement) ownedElement.checked = data.owned;
+                if (orderedElement) orderedElement.checked = data.ordered;
+                if (gradingElement) gradingElement.value = data.grading;
+                
+                // Sync card view elements
+                const ownedCardElement = document.getElementById(`${cardId}_owned_card`);
+                const orderedCardElement = document.getElementById(`${cardId}_ordered_card`);
+                const gradingCardElement = document.getElementById(`${cardId}_grading_card`);
+                
+                if (ownedCardElement) ownedCardElement.checked = data.owned;
+                if (orderedCardElement) orderedCardElement.checked = data.ordered;
+                if (gradingCardElement) gradingCardElement.value = data.grading;
+                
+                updateCardVisualState(cardId);
+            });
+        }
+
         function updateStats() {
             const totalCards = pokemonData.length + secretCards.length;
-            const checkboxes = document.querySelectorAll('.purchase-checkbox');
-            const ownedCards = Array.from(checkboxes).filter(cb => cb.checked).length;
-            const missingCards = totalCards - ownedCards;
-            const completionPercentage = Math.round((ownedCards / totalCards) * 100);
+            let ownedCount = 0;
+            let orderedCount = 0;
+            
+            Object.values(collectionData).forEach(data => {
+                if (data.owned) ownedCount++;
+                if (data.ordered) orderedCount++;
+            });
+            
+            const missingCards = totalCards - ownedCount;
+            const completionPercentage = Math.round((ownedCount / totalCards) * 100);
 
             document.getElementById('totalCards').textContent = totalCards;
-            document.getElementById('ownedCards').textContent = ownedCards;
+            document.getElementById('ownedCards').textContent = ownedCount;
+            document.getElementById('orderedCards').textContent = orderedCount;
             document.getElementById('missingCards').textContent = missingCards;
             document.getElementById('completionPercentage').textContent = `${completionPercentage}%`;
         }
@@ -1203,75 +1379,94 @@
             const typeFilter = document.getElementById('typeFilter').value.toLowerCase();
             const ownedFilter = document.getElementById('ownedFilter').value;
             const cardTypeFilter = document.getElementById('cardTypeFilter').value;
+            const gradingFilter = document.getElementById('gradingFilter').value;
             const rows = document.querySelectorAll('#tableBody tr');
             const cards = document.querySelectorAll('.pokemon-card');
             
-            // Filtra righe tabella
+            // Filter table rows
             rows.forEach(row => {
                 const pokemonName = row.getAttribute('data-pokemon-name');
                 const cardType = row.getAttribute('data-card-type');
                 const types = row.getAttribute('data-type');
                 const cardNumber = row.querySelector('.card-number').textContent;
-                const checkbox = row.querySelector('.purchase-checkbox');
-                const isOwned = checkbox.checked;
+                
+                // Get card data
+                const cardId = row.querySelector('.purchase-checkbox').id.replace('_owned', '');
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
                 
                 let showRow = true;
                 
-                // Filtro ricerca
+                // Search filter
                 if (searchTerm && !pokemonName.includes(searchTerm) && !cardNumber.includes(searchTerm)) {
                     showRow = false;
                 }
                 
-                // Filtro tipo
+                // Type filter
                 if (typeFilter && !types.includes(typeFilter)) {
                     showRow = false;
                 }
                 
-                // Filtro possedute/mancanti
-                if (ownedFilter === 'owned' && !isOwned) {
+                // Collection status filter
+                if (ownedFilter === 'owned' && !cardData.owned) {
                     showRow = false;
-                } else if (ownedFilter === 'missing' && isOwned) {
+                } else if (ownedFilter === 'ordered' && !cardData.ordered) {
+                    showRow = false;
+                } else if (ownedFilter === 'missing' && (cardData.owned || cardData.ordered)) {
                     showRow = false;
                 }
                 
-                // Filtro tipo carta
+                // Card type filter
                 if (cardTypeFilter && cardType !== cardTypeFilter) {
+                    showRow = false;
+                }
+                
+                // Grading filter
+                if (gradingFilter && cardData.grading !== gradingFilter) {
                     showRow = false;
                 }
                 
                 row.style.display = showRow ? '' : 'none';
             });
 
-            // Filtra carte nella vista mobile
+            // Filter cards in mobile view
             cards.forEach(card => {
                 const pokemonName = card.getAttribute('data-pokemon-name');
                 const cardType = card.getAttribute('data-card-type');
                 const types = card.getAttribute('data-type');
                 const cardNumber = card.querySelector('.card-number').textContent;
-                const checkbox = card.querySelector('.card-checkbox');
-                const isOwned = checkbox.checked;
+                
+                // Get card data
+                const cardId = card.id.replace('_card', '');
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
                 
                 let showCard = true;
                 
-                // Filtro ricerca
+                // Search filter
                 if (searchTerm && !pokemonName.includes(searchTerm) && !cardNumber.includes(searchTerm)) {
                     showCard = false;
                 }
                 
-                // Filtro tipo
+                // Type filter
                 if (typeFilter && !types.includes(typeFilter)) {
                     showCard = false;
                 }
                 
-                // Filtro possedute/mancanti
-                if (ownedFilter === 'owned' && !isOwned) {
+                // Collection status filter
+                if (ownedFilter === 'owned' && !cardData.owned) {
                     showCard = false;
-                } else if (ownedFilter === 'missing' && isOwned) {
+                } else if (ownedFilter === 'ordered' && !cardData.ordered) {
+                    showCard = false;
+                } else if (ownedFilter === 'missing' && (cardData.owned || cardData.ordered)) {
                     showCard = false;
                 }
                 
-                // Filtro tipo carta
+                // Card type filter
                 if (cardTypeFilter && cardType !== cardTypeFilter) {
+                    showCard = false;
+                }
+                
+                // Grading filter
+                if (gradingFilter && cardData.grading !== gradingFilter) {
                     showCard = false;
                 }
                 
@@ -1279,36 +1474,23 @@
             });
         }
 
-        function savePurchaseState(id, checked) {
-            purchaseStates[id] = checked;
-            saveData();
-        }
-
-        function loadPurchaseStates() {
+        function loadCollectionData() {
             loadData();
-            Object.keys(purchaseStates).forEach(id => {
-                const checkbox = document.getElementById(id);
-                const cardCheckbox = document.getElementById(id + '_card');
-                if (checkbox) {
-                    checkbox.checked = purchaseStates[id];
-                }
-                if (cardCheckbox) {
-                    cardCheckbox.checked = purchaseStates[id];
-                }
-                updateCardView(id);
-            });
+            syncAllCardData();
         }
 
-        function resetPurchases() {
-            if (confirm('Are you sure you want to reset all data?')) {
-                purchaseStates = {};
+        function resetCollection() {
+            if (confirm('Are you sure you want to reset all collection data?')) {
+                collectionData = {};
                 try {
-                    localStorage.removeItem('carddass_purchases');
+                    localStorage.removeItem('carddass_collection');
                 } catch (e) {
-                    console.log('Errore nella rimozione da localStorage');
+                    console.log('Error removing from localStorage');
                 }
-                document.querySelectorAll('.purchase-checkbox').forEach(cb => cb.checked = false);
-                document.querySelectorAll('.card-checkbox').forEach(cb => cb.checked = false);
+                
+                // Reset all checkboxes and selects
+                document.querySelectorAll('.purchase-checkbox, .order-checkbox, .card-checkbox').forEach(cb => cb.checked = false);
+                document.querySelectorAll('.grading-select').forEach(select => select.value = 'raw');
                 document.querySelectorAll('.pokemon-card').forEach(card => {
                     card.classList.remove('owned');
                 });
@@ -1318,30 +1500,34 @@
 
         function markAllOwned() {
             if (confirm('Do you want to mark all cards as owned?')) {
-                document.querySelectorAll('.purchase-checkbox').forEach(cb => {
-                    cb.checked = true;
-                    savePurchaseState(cb.id, true);
+                // Mark all standard cards as owned
+                pokemonData.forEach(pokemon => {
+                    const cardId = `card_${pokemon.num}`;
+                    updateCardData(cardId, 'owned', true);
                 });
-                document.querySelectorAll('.card-checkbox').forEach(cb => {
-                    cb.checked = true;
+                
+                // Mark all secret cards as owned
+                secretCards.forEach(card => {
+                    const cardId = `card_${card.num}`;
+                    updateCardData(cardId, 'owned', true);
                 });
-                document.querySelectorAll('.pokemon-card').forEach(card => {
-                    card.classList.add('owned');
-                });
+                
+                syncAllCardData();
                 updateStats();
             }
         }
 
-        // Funzioni per backup JSON
+        // Backup functions
         function exportBackup() {
             const backupData = {
-                version: "1.0",
+                version: "2.0",
                 timestamp: new Date().toISOString(),
                 totalCards: pokemonData.length + secretCards.length,
-                purchaseStates: purchaseStates,
+                collectionData: collectionData,
                 statistics: {
-                    owned: Object.values(purchaseStates).filter(Boolean).length,
-                    completion: Math.round((Object.values(purchaseStates).filter(Boolean).length / (pokemonData.length + secretCards.length)) * 100)
+                    owned: Object.values(collectionData).filter(data => data.owned).length,
+                    ordered: Object.values(collectionData).filter(data => data.ordered).length,
+                    completion: Math.round((Object.values(collectionData).filter(data => data.owned).length / (pokemonData.length + secretCards.length)) * 100)
                 }
             };
 
@@ -1374,31 +1560,47 @@
                 try {
                     const backupData = JSON.parse(e.target.result);
                     
-                    // Validazione del backup
-                    if (!backupData.purchaseStates) {
-                        throw new Error('File backup non valido: mancano i dati delle carte');
+                    // Validate backup
+                    if (!backupData.collectionData && !backupData.purchaseStates) {
+                        throw new Error('Invalid backup file: missing collection data');
                     }
 
-                    // Conferma prima dell'import
+                    // Handle old format (v1.0) compatibility
+                    let importData = {};
+                    if (backupData.purchaseStates) {
+                        // Convert old format to new format
+                        Object.keys(backupData.purchaseStates).forEach(oldKey => {
+                            const cardId = oldKey.replace('purchase_', 'card_');
+                            importData[cardId] = {
+                                owned: backupData.purchaseStates[oldKey],
+                                ordered: false,
+                                grading: 'raw'
+                            };
+                        });
+                    } else {
+                        importData = backupData.collectionData;
+                    }
+
+                    // Confirm before import
                     const importInfo = `
 📊 BACKUP INFORMATION:
-- Date: ${backupData.timestamp ? new Date(backupData.timestamp).toLocaleString('it-IT') : 'Non disponibile'}
-- Owned cards: ${backupData.statistics?.owned || 'Non disponibile'}
-- Completion: ${backupData.statistics?.completion || 'Non disponibile'}%
+- Date: ${backupData.timestamp ? new Date(backupData.timestamp).toLocaleString('en-US') : 'Not available'}
+- Owned cards: ${backupData.statistics?.owned || 'Not available'}
+- Completion: ${backupData.statistics?.completion || 'Not available'}%
 
 ⚠️ WARNING: This will replace all current data!
 Do you want to proceed with the import?`;
 
                     if (confirm(importInfo)) {
-                        purchaseStates = backupData.purchaseStates;
+                        collectionData = importData;
                         saveData();
-                        loadPurchaseStates();
-                        syncAllCheckboxes();
+                        loadCollectionData();
+                        syncAllCardData();
                         updateStats();
                         alert('✅ Backup imported successfully!');
                     }
                 } catch (error) {
-                    alert('❌ Errore nell\'importazione del backup:\n' + error.message);
+                    alert('❌ Error importing backup:\n' + error.message);
                 }
             };
             
@@ -1413,48 +1615,52 @@ Do you want to proceed with the import?`;
             }
 
             const workbook = XLSX.utils.book_new();
-            const data = [['Number', 'Nome', 'Type', 'Owned']];
+            const data = [['Number', 'Name', 'Type', 'Owned', 'Ordered', 'Condition']];
             
             pokemonData.forEach(pokemon => {
-                const checkbox = document.getElementById(`purchase_${pokemon.num}`);
-                const owned = checkbox ? checkbox.checked : false;
+                const cardId = `card_${pokemon.num}`;
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
                 data.push([
                     pokemon.num.toString().padStart(3, '0'),
                     pokemon.name,
                     pokemon.type,
-                    owned ? 'Yes' : 'No'
+                    cardData.owned ? 'Yes' : 'No',
+                    cardData.ordered ? 'Yes' : 'No',
+                    cardData.grading.toUpperCase()
                 ]);
             });
 
             secretCards.forEach(card => {
-                const checkbox = document.getElementById(`purchase_${card.num}`);
-                const owned = checkbox ? checkbox.checked : false;
+                const cardId = `card_${card.num}`;
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
                 data.push([
                     card.num,
                     card.name,
                     card.type,
-                    owned ? 'Yes' : 'No'
+                    cardData.owned ? 'Yes' : 'No',
+                    cardData.ordered ? 'Yes' : 'No',
+                    cardData.grading.toUpperCase()
                 ]);
             });
 
             const worksheet = XLSX.utils.aoa_to_sheet(data);
-            XLSX.utils.book_append_sheet(workbook, worksheet, 'Carddass');
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Carddass Collection');
             XLSX.writeFile(workbook, 'Pokemon_Carddass_Collection.xlsx');
         }
 
         function exportToCSV() {
-            let csv = 'Number,Nome,Type,Owned\n';
+            let csv = 'Number,Name,Type,Owned,Ordered,Condition\n';
             
             pokemonData.forEach(pokemon => {
-                const checkbox = document.getElementById(`purchase_${pokemon.num}`);
-                const owned = checkbox ? checkbox.checked : false;
-                csv += `${pokemon.num.toString().padStart(3, '0')},"${pokemon.name}","${pokemon.type}","${owned ? 'Yes' : 'No'}"\n`;
+                const cardId = `card_${pokemon.num}`;
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
+                csv += `${pokemon.num.toString().padStart(3, '0')},"${pokemon.name}","${pokemon.type}","${cardData.owned ? 'Yes' : 'No'}","${cardData.ordered ? 'Yes' : 'No'}","${cardData.grading.toUpperCase()}"\n`;
             });
 
             secretCards.forEach(card => {
-                const checkbox = document.getElementById(`purchase_${card.num}`);
-                const owned = checkbox ? checkbox.checked : false;
-                csv += `${card.num},"${card.name}","${card.type}","${owned ? 'Yes' : 'No'}"\n`;
+                const cardId = `card_${card.num}`;
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
+                csv += `${card.num},"${card.name}","${card.type}","${cardData.owned ? 'Yes' : 'No'}","${cardData.ordered ? 'Yes' : 'No'}","${cardData.grading.toUpperCase()}"\n`;
             });
 
             const blob = new Blob([csv], { type: 'text/csv' });
@@ -1464,20 +1670,20 @@ Do you want to proceed with the import?`;
             link.click();
         }
 
-        // Inizializza tutto quando la pagina è caricata
+        // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
             generateTable();
             
-            // Show un messaggio di stato del salvataggio
+            // Show storage status message
             try {
                 localStorage.setItem('test', 'test');
                 localStorage.removeItem('test');
-                console.log('✅ LocalStorage disponibile - i dati saranno persistenti');
+                console.log('✅ LocalStorage available - data will be persistent');
             } catch (e) {
-                console.log('⚠️ LocalStorage non disponibile - i dati saranno mantenuti solo in sessione');
-                // Opzionalmente potresti mostrare un avviso all'utente
+                console.log('⚠️ LocalStorage not available - data will be kept in session only');
+                // Optionally show a warning to the user
                 setTimeout(() => {
-                    if (confirm('⚠️ WARNING: The browser cannot save data permanently.\nYour data will be lost when closing the page.\n\nDo you want to download a safety backup now?')) {
+                    if (confirm('⚠️ WARNING: Browser cannot save data permanently.\nYour data will be lost when closing the page.\n\nDo you want to download a backup now?')) {
                         exportBackup();
                     }
                 }, 2000);
