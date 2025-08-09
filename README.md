@@ -4,9 +4,7 @@ A static HTML page to keep track of the 1997 Bandai Carddass Pokémon collection
 ## About This Project
 
 I created this project in my free time after starting a small collection of vintage Pokémon Carddass cards from 1997.  
-Many of these cards are purchased directly from Japan, which means the process can be… quite the adventure: participating in auctions, winning them, and then patiently waiting for the package to arrive.  
-
-I wanted something better than a boring Excel file to keep track of the cards I already have — and here we are.  
+Many of these cards are purchased directly from Japan, which means the process can be… quite the adventure: participating in auctions, winning them, and then patiently waiting for the package to arrive. I wanted something better than a boring Excel file to keep track of the cards I already have — and here we are.  
 
 ## Why I Made It
 
@@ -23,6 +21,8 @@ It works well enough for what I need.
 - Simple and fast to update
 - No backend, just static HTML for easy hosting
 - Designed for personal use, but reusable by other collectors
+- Dark mode because why not
+- Export in various format
 
 ---
 
@@ -37,6 +37,18 @@ That means **if you reboot your PC, clear your browser cache, switch browsers, o
 So, if you care about your collection data, make sure to **back up your files manually** before doing any of the above. Use the export or save options provided (if any), or just copy-paste your data somewhere safe.  
 
 Basically: demo use is **at your own risk**. No server magic here, just pure static magic.
+
+---
+
+## Work in progress
+
+There are obviously some rough edges and potential improvements planned:  
+
+- The mobile version looks weird and needs some serious TLC  
+- Adding a column to track whether a card is already owned or just ordered  
+- Including useful links to websites and resources about the Carddass collection  
+
+If you want to contribute or suggest features, feel free to open an issue or a pull request!
 
 ---
 
