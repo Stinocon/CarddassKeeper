@@ -2,7 +2,7 @@
 
 A comprehensive static HTML collection manager for tracking vintage 1997 Bandai Carddass Pokémon cards.
 
-<img width="1448" height="931" alt="Screenshot 2025-08-09 alle 13 49 08" src="https://github.com/user-attachments/assets/98677dbc-2a14-41ba-8633-c3e969a764c0" />
+<img width="1474" height="904" alt="Screenshot 2025-08-10 alle 13 08 36" src="https://github.com/user-attachments/assets/c8b5f0d5-54b3-42c9-a24d-38adb9b7b1ae" />
 
 ## 🌟 About This Project
 
