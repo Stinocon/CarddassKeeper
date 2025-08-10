@@ -68,8 +68,8 @@ I wanted something more engaging and visual than a boring Excel spreadsheet to t
 - Cards you've ordered
 - Missing cards count
 - Completion percentage
-- **NEW**: Total collection value
-- **NEW**: Average price per card
+- Total collection value
+- Average price per card
 
 ### 💾 **Data Management**
 - **Auto-Save**: Your data is automatically saved as you work
@@ -140,17 +140,6 @@ The mobile version has been completely optimized for touch devices:
 8. **🔍 Use Filters**: Find specific cards or view subsets of your collection
 9. **💾 Backup Regularly**: Export your data to prevent loss
 10. **📱 Go Mobile**: Switch to mobile mode for on-the-go collection management
-
-## 🆕 Recent Updates
-
-### Version 2.1 - Multi-Language & Financial Tracking
-- **🌐 Multi-Language Support**: English, Italian, Spanish
-- **💰 Price Tracking**: Enter and track card purchase prices
-- **🏷️ Multi-Currency**: Support for EUR, USD, GBP, JPY
-- **📊 Enhanced Statistics**: Total collection value and average price
-- **🔄 Improved Export**: All formats now include price data
-- **📱 Mobile Optimization**: Better price input on mobile devices
-- **💾 Backward Compatibility**: Old backups automatically upgraded
 
 ## 🤝 Contributing
 
