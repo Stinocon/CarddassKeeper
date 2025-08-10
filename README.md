@@ -7,7 +7,6 @@ A comprehensive static HTML collection manager for tracking vintage 1997 Bandai 
 ## 🌟 About This Project
 
 I created this project during my free time after diving into collecting vintage Pokémon Carddass cards from 1997. Many of these cards come directly from Japan through auctions—it's quite the adventure: bidding, winning, and then patiently waiting for packages to arrive across the globe! 
-
 I wanted something more engaging and visual than a boring Excel spreadsheet to track my collection, and this is what came to life. It's designed to make collecting more organized, enjoyable, and efficient.
 
 ## 🎯 Why I Made It
@@ -18,7 +17,9 @@ I wanted something more engaging and visual than a boring Excel spreadsheet to t
 - ✅ Visual tracking of owned cards
 - 📦 Order management to avoid duplicate purchases  
 - 🏆 Grading status tracking for serious collectors
+- 💰 Price tracking and collection value management
 - 📊 Real-time statistics and completion tracking
+- 🌐 Multi-language support (English, Italian, Spanish)
 - 🌙 Dark mode for late-night collection sessions
 
 ## 🚀 Key Features
@@ -27,7 +28,22 @@ I wanted something more engaging and visual than a boring Excel spreadsheet to t
 - **Owned Status**: Track which cards you physically have
 - **Order Tracking**: Monitor cards you've ordered but haven't received yet
 - **Grading System**: Record card conditions (Raw, PSA, BGS, CGC, SGC)
+- **Price Tracking**: Enter purchase prices to track collection value
 - **153 Cards Total**: All 151 original Pokémon + 2 special secret cards
+
+### 💰 **Financial Tracking**
+- **Multi-Currency Support**: EUR (€), USD ($), GBP (£), JPY (¥)
+- **Collection Value**: Real-time total value calculation
+- **Average Price**: Track average cost per card
+- **Smart Calculations**: Only counts prices for owned cards
+- **Currency Preferences**: Automatically saved and restored
+
+### 🌐 **Multi-Language Support**
+- **🇬🇧 English**: Full interface translation
+- **🇮🇹 Italiano**: Complete Italian localization
+- **🇪🇸 Español**: Full Spanish translation
+- **Language Persistence**: Your choice is automatically saved
+- **Localized Messages**: All alerts and confirmations translated
 
 ### 🔍 **Advanced Filtering & Search**
 - Search by Pokémon name or card number
@@ -52,11 +68,13 @@ I wanted something more engaging and visual than a boring Excel spreadsheet to t
 - Cards you've ordered
 - Missing cards count
 - Completion percentage
+- **NEW**: Total collection value
+- **NEW**: Average price per card
 
 ### 💾 **Data Management**
 - **Auto-Save**: Your data is automatically saved as you work
-- **Export Options**: Backup to JSON, Excel, or CSV formats
-- **Import Function**: Restore from previous backups
+- **Export Options**: Backup to JSON, Excel, or CSV formats (includes prices)
+- **Import Function**: Restore from previous backups (backward compatible)
 - **Print Support**: Generate physical collection lists
 
 ## 🛠️ How It's Built
@@ -66,6 +84,7 @@ This is a **pure static HTML application**—no server required! Built with:
 - **Vanilla JavaScript**: Fast and lightweight functionality
 - **Local Storage**: Browser-based data persistence
 - **XLSX.js**: Excel export capabilities
+- **Multi-language System**: Client-side translations
 
 I used AI tools to accelerate development because life's too short to write everything from scratch! 🤖
 
@@ -107,25 +126,31 @@ The mobile version has been completely optimized for touch devices:
 - **Card View**: Swipe-friendly card interface alternative to table view
 - **Fixed Bottom Menu**: Quick access to all functions
 - **Touch-Optimized**: Larger buttons and checkboxes for better usability
+- **Price Input**: Optimized number inputs for mobile keyboards
 
 ## 🎮 How to Use
 
 1. **📖 Open the Page**: Load the HTML file in any modern browser
-2. **🎯 Track Ownership**: Check "Owned" for cards you have
-3. **📦 Monitor Orders**: Check "Ordered" for cards you've purchased but not received
-4. **🏆 Record Grading**: Select grading status from dropdown (Raw, PSA, BGS, etc.)
-5. **🔍 Use Filters**: Find specific cards or view subsets of your collection
-6. **💾 Backup Regularly**: Export your data to prevent loss
-7. **📱 Go Mobile**: Switch to mobile mode for on-the-go collection management
+2. **🌐 Choose Language**: Select your preferred language (English/Italian/Spanish)
+3. **💰 Set Currency**: Choose your currency (EUR/USD/GBP/JPY)
+4. **🎯 Track Ownership**: Check "Owned" for cards you have
+5. **📦 Monitor Orders**: Check "Ordered" for cards you've purchased but not received
+6. **🏆 Record Grading**: Select grading status from dropdown (Raw, PSA, BGS, etc.)
+7. **💵 Enter Prices**: Add purchase prices to track collection value
+8. **🔍 Use Filters**: Find specific cards or view subsets of your collection
+9. **💾 Backup Regularly**: Export your data to prevent loss
+10. **📱 Go Mobile**: Switch to mobile mode for on-the-go collection management
 
-## 🚧 Future Improvements
+## 🆕 Recent Updates
 
-- 🔗 Integration with card price databases
-- 📸 Photo upload for individual cards
-- 📈 Value tracking and collection worth calculation
-- 🌐 Multi-language support
-- 📋 Wishlist functionality
-- 🤝 Collection sharing between users
+### Version 2.1 - Multi-Language & Financial Tracking
+- **🌐 Multi-Language Support**: English, Italian, Spanish
+- **💰 Price Tracking**: Enter and track card purchase prices
+- **🏷️ Multi-Currency**: Support for EUR, USD, GBP, JPY
+- **📊 Enhanced Statistics**: Total collection value and average price
+- **🔄 Improved Export**: All formats now include price data
+- **📱 Mobile Optimization**: Better price input on mobile devices
+- **💾 Backward Compatibility**: Old backups automatically upgraded
 
 ## 🤝 Contributing
 
