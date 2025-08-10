@@ -1,4 +1,4 @@
-# 🎴 Pokédass Manager
+# 🎴 CarddassKeeper
 
 A comprehensive static HTML collection manager for tracking vintage 1997 Bandai Carddass Pokémon cards.
 
@@ -90,7 +90,7 @@ I used AI tools to accelerate development because life's too short to write ever
 
 ## 💻 Demo
 
-**🔗 [Try the Live Demo](https://stinocon.github.io/Pokedass-Manager/index.html)**
+**🔗 [Try the Live Demo](https://stinocon.github.io/CarddassKeeper/index.html)**
 
 ### ⚠️ Important Data Storage Information
 
