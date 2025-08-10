@@ -153,17 +153,6 @@ Got ideas? Found bugs? Want to contribute?
 - ⭐ **Star the Repo**: Show your support and help others discover the project!
 
 *This tool was built for personal use and remains a side project. Your understanding is appreciated! 🙏*
-## ☕ Support the Project
-
-If this tool has helped you organize your collection and you'd like to support, consider buying me a coffee! Your support helps keep the project alive and motivates me to add new features. 
-
-<div align="center">
-
-[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.com/paypalme/stefanoconter)
-
-*Every contribution, no matter how small, is greatly appreciated! 🙏*
-
-</div>
 
 ## 📄 License & Disclaimer
 
