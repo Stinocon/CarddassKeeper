@@ -156,14 +156,17 @@ The mobile version has been completely optimized for touch devices:
 
 Got ideas? Found bugs? Want to contribute?
 
-- 🐛 **Report Issues**: Open an issue on GitHub
-- 💡 **Suggest Features**: Share your ideas in the discussions
-- 🔧 **Submit PRs**: Fork, improve, and submit pull requests
-- ⭐ **Star the Repo**: Show your support!
+⚠️ **Please note**: This is a **personal hobby project** created primarily for my own use. While I appreciate feedback and suggestions, I cannot guarantee that issues will be fixed or features will be implemented. The project is provided **as-is, without warranties**.
 
+- 🐛 **Report Issues**: Feel free to open issues on GitHub, but fixes are not guaranteed
+- 💡 **Suggest Features**: Share your ideas in the discussions - they might inspire future updates
+- 🔧 **Submit PRs**: Pull requests are welcome, though review and merge are at my discretion
+- ⭐ **Star the Repo**: Show your support and help others discover the project!
+
+*This tool was built for personal use and remains a side project. Your understanding is appreciated! 🙏*
 ## ☕ Support the Project
 
-If this tool has helped you organize your collection and you'd like to support its development, consider buying me a coffee! Your support helps keep the project alive and motivates me to add new features.
+If this tool has helped you organize your collection and you'd like to support, consider buying me a coffee! Your support helps keep the project alive and motivates me to add new features. 
 
 <div align="center">
 
@@ -179,7 +182,7 @@ If this tool has helped you organize your collection and you'd like to support i
 Pokémon, Pokémon character names, and related trademarks are the property of Nintendo, Creatures Inc., and Game Freak Inc. Bandai and related trademarks belong to their respective owners.
 
 ### ⚖️ Project License
-This project is **not affiliated with, endorsed, or sponsored by** any of these entities. This is a fan-made tool created for recreational purposes only, with no commercial intent or profit.
+This project is **not affiliated with, endorsed, or sponsored by** any of these entities. This is a fan-made tool created for recreational purposes only.
 
 All trademarks remain the property of their respective owners worldwide. No copyright or trademark infringement is intended.
 
