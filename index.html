@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon Carddass Collection Manager</title>
+    <title data-i18n="title">Pokemon Carddass Collection Manager</title>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -76,6 +76,173 @@
             display: flex;
             gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Currency Selector Styles */
+        .currency-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .currency-toggle {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 100px;
+            justify-content: center;
+        }
+
+        .currency-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .currency-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+            min-width: 120px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .currency-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .currency-option {
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .currency-option:hover {
+            background: var(--hover-bg);
+        }
+
+        .currency-option.active {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+
+        .currency-symbol {
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Language Selector Styles */
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+
+        .lang-toggle {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 130px;
+            justify-content: center;
+        }
+
+        .lang-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.3);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+            min-width: 160px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .lang-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .lang-option:hover {
+            background: var(--hover-bg);
+        }
+
+        .lang-option.active {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+        }
+
+        .flag {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .lang-arrow {
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .lang-toggle.active .lang-arrow {
+            transform: rotate(180deg);
         }
         
         h1 {
@@ -122,6 +289,11 @@
             flex-direction: column;
             text-align: center;
             margin-bottom: 15px;
+        }
+
+        .mobile-mode .lang-dropdown, .mobile-mode .currency-dropdown {
+            right: auto;
+            left: 0;
         }
 
         .mobile-mode .stats-container {
@@ -230,6 +402,13 @@
             width: 50px;
         }
 
+        .mobile-mode .price-input {
+            font-size: 8px;
+            padding: 2px;
+            width: 50px;
+            min-width: 40px;
+        }
+
         /* Card View Mode for Mobile */
         .mobile-mode .card-view {
             display: none;
@@ -312,7 +491,7 @@
         
         .stats-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -569,6 +748,24 @@
             border-color: var(--border-hover);
         }
 
+        /* Price input styles */
+        .price-input {
+            padding: 6px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 12px;
+            cursor: pointer;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .price-input:focus {
+            outline: none;
+            border-color: var(--border-hover);
+        }
+
         .grading-raw { background-color: #ecf0f1; }
         .grading-psa { background-color: #e8f5e8; }
         .grading-bgs { background-color: #e8f4fd; }
@@ -590,6 +787,10 @@
 
         /* Print styles */
         @media print {
+            .language-selector, .currency-selector {
+                display: none !important;
+            }
+            
             body {
                 background: white !important;
                 padding: 0;
@@ -688,6 +889,11 @@
             .filters-content {
                 grid-template-columns: 1fr;
             }
+
+            .lang-dropdown, .currency-dropdown {
+                right: auto;
+                left: 0;
+            }
         }
     </style>
 </head>
@@ -695,17 +901,67 @@
     <div class="container">
         <div class="header">
             <div class="header-content">
-                <h1>🎴 Pokemon Carddass Collection Manager</h1>
-                <p>Standard Cards (1997) Part 3 & 4 - Bandai</p>
+                <h1 data-i18n="app_title">🎴 Pokemon Carddass Collection Manager</h1>
+                <p data-i18n="subtitle">Standard Cards (1997) Part 3 & 4 - Bandai</p>
             </div>
             <div class="header-controls">
+                <!-- Currency Selector -->
+                <div class="currency-selector">
+                    <button class="currency-toggle" id="currencyToggle">
+                        <span class="currency-symbol" id="currentCurrencySymbol">€</span>
+                        <span id="currentCurrency">EUR</span>
+                        <span class="lang-arrow">▼</span>
+                    </button>
+                    <div class="currency-dropdown" id="currencyDropdown">
+                        <div class="currency-option active" data-currency="EUR">
+                            <span class="currency-symbol">€</span>
+                            <span>EUR</span>
+                        </div>
+                        <div class="currency-option" data-currency="USD">
+                            <span class="currency-symbol">$</span>
+                            <span>USD</span>
+                        </div>
+                        <div class="currency-option" data-currency="GBP">
+                            <span class="currency-symbol">£</span>
+                            <span>GBP</span>
+                        </div>
+                        <div class="currency-option" data-currency="JPY">
+                            <span class="currency-symbol">¥</span>
+                            <span>JPY</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Language Selector -->
+                <div class="language-selector">
+                    <button class="lang-toggle" id="langToggle">
+                        <span class="flag" id="currentFlag">🇬🇧</span>
+                        <span id="currentLang">English</span>
+                        <span class="lang-arrow" id="langArrow">▼</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <div class="lang-option" data-lang="en">
+                            <span class="flag">🇬🇧</span>
+                            <span>English</span>
+                        </div>
+                        <div class="lang-option" data-lang="it">
+                            <span class="flag">🇮🇹</span>
+                            <span>Italiano</span>
+                        </div>
+                        <div class="lang-option" data-lang="es">
+                            <span class="flag">🇪🇸</span>
+                            <span>Español</span>
+                        </div>
+                    </div>
+                </div>
+                
                 <button class="mobile-toggle" onclick="toggleMobileMode()">
                     <span id="mobileIcon">📱</span>
-                    <span id="mobileText">Mobile</span>
+                    <span id="mobileText" data-i18n="mobile">Mobile</span>
                 </button>
                 <button class="theme-toggle" onclick="toggleTheme()">
                     <span id="themeIcon">🌙</span>
-                    <span id="themeText">Dark</span>
+                    <span id="themeText" data-i18n="dark">Dark</span>
                 </button>
             </div>
         </div>
@@ -713,42 +969,50 @@
         <div class="stats-container">
             <div class="stat-card">
                 <div class="stat-number" id="totalCards">153</div>
-                <div class="stat-label">Total Cards</div>
+                <div class="stat-label" data-i18n="total_cards">Total Cards</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="ownedCards">0</div>
-                <div class="stat-label">Owned Cards</div>
+                <div class="stat-label" data-i18n="owned_cards">Owned Cards</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="orderedCards">0</div>
-                <div class="stat-label">Ordered Cards</div>
+                <div class="stat-label" data-i18n="ordered_cards">Ordered Cards</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="missingCards">153</div>
-                <div class="stat-label">Missing Cards</div>
+                <div class="stat-label" data-i18n="missing_cards">Missing Cards</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="completionPercentage">0%</div>
-                <div class="stat-label">Completion</div>
+                <div class="stat-label" data-i18n="completion">Completion</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalValue">€0.00</div>
+                <div class="stat-label" data-i18n="total_value">Total Value</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="averagePrice">€0.00</div>
+                <div class="stat-label" data-i18n="average_price">Average Price</div>
             </div>
         </div>
 
         <div class="filters-section">
             <div class="filters-header">
-                <h3>🔍 Advanced Filters</h3>
+                <h3 data-i18n="advanced_filters">🔍 Advanced Filters</h3>
                 <button class="filters-toggle" onclick="toggleFilters()">
-                    <span id="filtersToggleText">Hide</span>
+                    <span id="filtersToggleText" data-i18n="hide">Hide</span>
                 </button>
             </div>
             <div class="filters-content" id="filtersContent">
                 <div class="filter-group">
-                    <label>Search Pokemon</label>
-                    <input type="text" class="search-box" id="searchBox" placeholder="Name or card number..." oninput="applyFilters()">
+                    <label data-i18n="search_pokemon">Search Pokemon</label>
+                    <input type="text" class="search-box" id="searchBox" data-i18n-placeholder="search_placeholder" placeholder="Name or card number..." oninput="applyFilters()">
                 </div>
                 <div class="filter-group">
-                    <label>Filter by Type</label>
+                    <label data-i18n="filter_by_type">Filter by Type</label>
                     <select class="filter-select" id="typeFilter" onchange="applyFilters()">
-                        <option value="">All types</option>
+                        <option value="" data-i18n="all_types">All types</option>
                         <option value="Normal">Normal</option>
                         <option value="Fire">Fire</option>
                         <option value="Water">Water</option>
@@ -768,31 +1032,31 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label>Collection Status</label>
+                    <label data-i18n="collection_status">Collection Status</label>
                     <select class="filter-select" id="ownedFilter" onchange="applyFilters()">
-                        <option value="">All cards</option>
-                        <option value="owned">Only owned</option>
-                        <option value="ordered">Only ordered</option>
-                        <option value="missing">Only missing</option>
+                        <option value="" data-i18n="all_cards">All cards</option>
+                        <option value="owned" data-i18n="only_owned">Only owned</option>
+                        <option value="ordered" data-i18n="only_ordered">Only ordered</option>
+                        <option value="missing" data-i18n="only_missing">Only missing</option>
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label>Card Type</label>
+                    <label data-i18n="card_type">Card Type</label>
                     <select class="filter-select" id="cardTypeFilter" onchange="applyFilters()">
-                        <option value="">All</option>
-                        <option value="standard">Standard</option>
-                        <option value="secret">Secret</option>
+                        <option value="" data-i18n="all">All</option>
+                        <option value="standard" data-i18n="standard">Standard</option>
+                        <option value="secret" data-i18n="secret">Secret</option>
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label>Grading Status</label>
+                    <label data-i18n="grading_status">Grading Status</label>
                     <select class="filter-select" id="gradingFilter" onchange="applyFilters()">
-                        <option value="">All conditions</option>
-                        <option value="raw">Raw only</option>
-                        <option value="psa">PSA graded</option>
-                        <option value="bgs">BGS graded</option>
-                        <option value="cgc">CGC graded</option>
-                        <option value="sgc">SGC graded</option>
+                        <option value="" data-i18n="all_conditions">All conditions</option>
+                        <option value="raw" data-i18n="raw_only">Raw only</option>
+                        <option value="psa" data-i18n="psa_graded">PSA graded</option>
+                        <option value="bgs" data-i18n="bgs_graded">BGS graded</option>
+                        <option value="cgc" data-i18n="cgc_graded">CGC graded</option>
+                        <option value="sgc" data-i18n="sgc_graded">SGC graded</option>
                     </select>
                 </div>
             </div>
@@ -800,28 +1064,28 @@
         
         <div class="controls">
             <button class="view-toggle" id="viewToggle" onclick="toggleCardView()" style="display: none;">
-                📋 Table View
+                <span data-i18n="table_view">📋 Table View</span>
             </button>
             <button class="btn" onclick="window.print()">
-                🖨️ Print
+                <span data-i18n="print">🖨️ Print</span>
             </button>
             <button class="btn" onclick="exportToExcel()">
-                📊 Excel
+                <span data-i18n="excel">📊 Excel</span>
             </button>
             <button class="btn" onclick="exportToCSV()">
-                📄 CSV
+                <span data-i18n="csv">📄 CSV</span>
             </button>
             <button class="btn" onclick="exportBackup()">
-                💾 Backup
+                <span data-i18n="backup">💾 Backup</span>
             </button>
             <button class="btn" onclick="importBackup()">
-                📂 Import
+                <span data-i18n="import">📂 Import</span>
             </button>
             <button class="btn btn-success" onclick="markAllOwned()">
-                ✅ All Owned
+                <span data-i18n="all_owned">✅ All Owned</span>
             </button>
             <button class="btn btn-danger" onclick="resetCollection()">
-                🔄 Reset
+                <span data-i18n="reset">🔄 Reset</span>
             </button>
         </div>
         
@@ -832,12 +1096,13 @@
             <table id="cardTable">
                 <thead>
                     <tr>
-                        <th>Number</th>
-                        <th>Pokemon Name</th>
-                        <th>Type</th>
-                        <th>Owned</th>
-                        <th>Ordered</th>
-                        <th>Condition</th>
+                        <th data-i18n="number">Number</th>
+                        <th data-i18n="pokemon_name">Pokemon Name</th>
+                        <th data-i18n="type">Type</th>
+                        <th data-i18n="owned">Owned</th>
+                        <th data-i18n="ordered">Ordered</th>
+                        <th data-i18n="condition">Condition</th>
+                        <th data-i18n="price">Price</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -854,6 +1119,363 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
+        // Language and Currency system
+        const translations = {
+            en: {
+                title: "Pokemon Carddass Collection Manager",
+                app_title: "🎴 Pokemon Carddass Collection Manager",
+                subtitle: "Standard Cards (1997) Part 3 & 4 - Bandai",
+                mobile: "Mobile",
+                dark: "Dark",
+                light: "Light",
+                desktop: "Desktop",
+                total_cards: "Total Cards",
+                owned_cards: "Owned Cards",
+                ordered_cards: "Ordered Cards",
+                missing_cards: "Missing Cards",
+                completion: "Completion",
+                total_value: "Total Value",
+                average_price: "Average Price",
+                advanced_filters: "🔍 Advanced Filters",
+                hide: "Hide",
+                show: "Show",
+                search_pokemon: "Search Pokemon",
+                search_placeholder: "Name or card number...",
+                filter_by_type: "Filter by Type",
+                all_types: "All types",
+                collection_status: "Collection Status",
+                all_cards: "All cards",
+                only_owned: "Only owned",
+                only_ordered: "Only ordered",
+                only_missing: "Only missing",
+                card_type: "Card Type",
+                all: "All",
+                standard: "Standard",
+                secret: "Secret",
+                grading_status: "Grading Status",
+                all_conditions: "All conditions",
+                raw_only: "Raw only",
+                psa_graded: "PSA graded",
+                bgs_graded: "BGS graded",
+                cgc_graded: "CGC graded",
+                sgc_graded: "SGC graded",
+                table_view: "📋 Table View",
+                card_view: "🃏 Card View",
+                print: "🖨️ Print",
+                excel: "📊 Excel",
+                csv: "📄 CSV",
+                backup: "💾 Backup",
+                import: "📂 Import",
+                all_owned: "✅ All Owned",
+                reset: "🔄 Reset",
+                number: "Number",
+                pokemon_name: "Pokemon Name",
+                type: "Type",
+                owned: "Owned",
+                ordered: "Ordered",
+                condition: "Condition",
+                price: "Price",
+                reset_confirm: "Are you sure you want to reset all collection data?",
+                mark_all_owned_confirm: "Do you want to mark all cards as owned?",
+                backup_created: "✅ Backup created successfully!",
+                invalid_file: "⚠️ Please select a valid JSON file.",
+                backup_imported: "✅ Backup imported successfully!",
+                import_error: "❌ Error importing backup:",
+                excel_error: "Excel library not loaded!",
+                storage_warning: "⚠️ WARNING: Browser cannot save data permanently.\\nYour data will be lost when closing the page.\\n\\nDo you want to download a backup now?"
+            },
+            it: {
+                title: "Gestione Collezione Pokemon Carddass",
+                app_title: "🎴 Gestione Collezione Pokemon Carddass",
+                subtitle: "Carte Standard (1997) Parte 3 & 4 - Bandai",
+                mobile: "Mobile",
+                dark: "Scuro",
+                light: "Chiaro",
+                desktop: "Desktop",
+                total_cards: "Carte Totali",
+                owned_cards: "Carte Possedute",
+                ordered_cards: "Carte Ordinate",
+                missing_cards: "Carte Mancanti",
+                completion: "Completamento",
+                total_value: "Valore Totale",
+                average_price: "Prezzo Medio",
+                advanced_filters: "🔍 Filtri Avanzati",
+                hide: "Nascondi",
+                show: "Mostra",
+                search_pokemon: "Cerca Pokemon",
+                search_placeholder: "Nome o numero carta...",
+                filter_by_type: "Filtra per Tipo",
+                all_types: "Tutti i tipi",
+                collection_status: "Stato Collezione",
+                all_cards: "Tutte le carte",
+                only_owned: "Solo possedute",
+                only_ordered: "Solo ordinate",
+                only_missing: "Solo mancanti",
+                card_type: "Tipo Carta",
+                all: "Tutte",
+                standard: "Standard",
+                secret: "Segrete",
+                grading_status: "Stato Valutazione",
+                all_conditions: "Tutte le condizioni",
+                raw_only: "Solo raw",
+                psa_graded: "Valutate PSA",
+                bgs_graded: "Valutate BGS",
+                cgc_graded: "Valutate CGC",
+                sgc_graded: "Valutate SGC",
+                table_view: "📋 Vista Tabella",
+                card_view: "🃏 Vista Carte",
+                print: "🖨️ Stampa",
+                excel: "📊 Excel",
+                csv: "📄 CSV",
+                backup: "💾 Backup",
+                import: "📂 Importa",
+                all_owned: "✅ Tutte Possedute",
+                reset: "🔄 Reset",
+                number: "Numero",
+                pokemon_name: "Nome Pokemon",
+                type: "Tipo",
+                owned: "Posseduta",
+                ordered: "Ordinata",
+                condition: "Condizione",
+                price: "Prezzo",
+                reset_confirm: "Sei sicuro di voler resettare tutti i dati della collezione?",
+                mark_all_owned_confirm: "Vuoi contrassegnare tutte le carte come possedute?",
+                backup_created: "✅ Backup creato con successo!",
+                invalid_file: "⚠️ Seleziona un file JSON valido.",
+                backup_imported: "✅ Backup importato con successo!",
+                import_error: "❌ Errore nell'importazione del backup:",
+                excel_error: "Libreria Excel non caricata!",
+                storage_warning: "⚠️ ATTENZIONE: Il browser non può salvare i dati in modo permanente.\\nI tuoi dati andranno persi chiudendo la pagina.\\n\\nVuoi scaricare un backup ora?"
+            },
+            es: {
+                title: "Gestor de Colección Pokemon Carddass",
+                app_title: "🎴 Gestor de Colección Pokemon Carddass",
+                subtitle: "Cartas Estándar (1997) Parte 3 & 4 - Bandai",
+                mobile: "Móvil",
+                dark: "Oscuro",
+                light: "Claro",
+                desktop: "Escritorio",
+                total_cards: "Cartas Totales",
+                owned_cards: "Cartas Poseídas",
+                ordered_cards: "Cartas Pedidas",
+                missing_cards: "Cartas Faltantes",
+                completion: "Finalización",
+                total_value: "Valor Total",
+                average_price: "Precio Promedio",
+                advanced_filters: "🔍 Filtros Avanzados",
+                hide: "Ocultar",
+                show: "Mostrar",
+                search_pokemon: "Buscar Pokemon",
+                search_placeholder: "Nombre o número de carta...",
+                filter_by_type: "Filtrar por Tipo",
+                all_types: "Todos los tipos",
+                collection_status: "Estado Colección",
+                all_cards: "Todas las cartas",
+                only_owned: "Solo poseídas",
+                only_ordered: "Solo pedidas",
+                only_missing: "Solo faltantes",
+                card_type: "Tipo de Carta",
+                all: "Todas",
+                standard: "Estándar",
+                secret: "Secretas",
+                grading_status: "Estado Graduación",
+                all_conditions: "Todas las condiciones",
+                raw_only: "Solo raw",
+                psa_graded: "Graduadas PSA",
+                bgs_graded: "Graduadas BGS",
+                cgc_graded: "Graduadas CGC",
+                sgc_graded: "Graduadas SGC",
+                table_view: "📋 Vista Tabla",
+                card_view: "🃏 Vista Cartas",
+                print: "🖨️ Imprimir",
+                excel: "📊 Excel",
+                csv: "📄 CSV",
+                backup: "💾 Respaldo",
+                import: "📂 Importar",
+                all_owned: "✅ Todas Poseídas",
+                reset: "🔄 Reiniciar",
+                number: "Número",
+                pokemon_name: "Nombre Pokemon",
+                type: "Tipo",
+                owned: "Poseída",
+                ordered: "Pedida",
+                condition: "Condición",
+                price: "Precio",
+                reset_confirm: "¿Estás seguro de que quieres reiniciar todos los datos de la colección?",
+                mark_all_owned_confirm: "¿Quieres marcar todas las cartas como poseídas?",
+                backup_created: "✅ ¡Respaldo creado exitosamente!",
+                invalid_file: "⚠️ Por favor selecciona un archivo JSON válido.",
+                backup_imported: "✅ ¡Respaldo importado exitosamente!",
+                import_error: "❌ Error al importar respaldo:",
+                excel_error: "¡Biblioteca Excel no cargada!",
+                storage_warning: "⚠️ ADVERTENCIA: El navegador no puede guardar datos permanentemente.\\nTus datos se perderán al cerrar la página.\\n\\n¿Quieres descargar un respaldo ahora?"
+            }
+        };
+
+        let currentLanguage = 'en';
+        let currentCurrency = 'EUR';
+
+        // Currency system
+        const currencies = {
+            EUR: { symbol: '€', decimals: 2 },
+            USD: { symbol: '$', decimals: 2 },
+            GBP: { symbol: '£', decimals: 2 },
+            JPY: { symbol: '¥', decimals: 0 }
+        };
+
+        function formatPrice(amount, currency = currentCurrency) {
+            const currencyData = currencies[currency];
+            const formattedAmount = parseFloat(amount || 0).toFixed(currencyData.decimals);
+            return currencyData.symbol + formattedAmount;
+        }
+
+        function initializeCurrency() {
+            try {
+                const savedCurrency = localStorage.getItem('pokemon-currency') || 'EUR';
+                changeCurrency(savedCurrency, false);
+            } catch (e) {
+                changeCurrency('EUR', false);
+            }
+        }
+
+        function toggleCurrencyDropdown() {
+            const dropdown = document.getElementById('currencyDropdown');
+            const toggle = document.getElementById('currencyToggle');
+            const isActive = dropdown.classList.contains('active');
+            
+            if (isActive) {
+                dropdown.classList.remove('active');
+                toggle.classList.remove('active');
+            } else {
+                dropdown.classList.add('active');
+                toggle.classList.add('active');
+            }
+        }
+
+        function changeCurrency(currency, save = true) {
+            currentCurrency = currency;
+            
+            // Update UI
+            updateCurrencyUI(currency);
+            
+            // Update all price displays
+            updateStats();
+            
+            // Save preference
+            if (save) {
+                try {
+                    localStorage.setItem('pokemon-currency', currency);
+                } catch (e) {
+                    console.log('Could not save currency preference');
+                }
+            }
+            
+            // Close dropdown
+            document.getElementById('currencyDropdown').classList.remove('active');
+            document.getElementById('currencyToggle').classList.remove('active');
+            
+            // Update active state
+            document.querySelectorAll('.currency-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-currency') === currency) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        function updateCurrencyUI(currency) {
+            const currencyData = currencies[currency];
+            document.getElementById('currentCurrencySymbol').textContent = currencyData.symbol;
+            document.getElementById('currentCurrency').textContent = currency;
+        }
+
+        // Language functions
+        function initializeLanguage() {
+            try {
+                const savedLang = localStorage.getItem('pokemon-lang') || 'en';
+                changeLanguage(savedLang, false);
+            } catch (e) {
+                changeLanguage('en', false);
+            }
+        }
+
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('langDropdown');
+            const toggle = document.getElementById('langToggle');
+            const isActive = dropdown.classList.contains('active');
+            
+            if (isActive) {
+                dropdown.classList.remove('active');
+                toggle.classList.remove('active');
+            } else {
+                dropdown.classList.add('active');
+                toggle.classList.add('active');
+            }
+        }
+
+        function changeLanguage(lang, save = true) {
+            currentLanguage = lang;
+            
+            // Update UI
+            updateLanguageUI(lang);
+            
+            // Update all text
+            translatePage(lang);
+            
+            // Save preference
+            if (save) {
+                try {
+                    localStorage.setItem('pokemon-lang', lang);
+                } catch (e) {
+                    console.log('Could not save language preference');
+                }
+            }
+            
+            // Close dropdown
+            document.getElementById('langDropdown').classList.remove('active');
+            document.getElementById('langToggle').classList.remove('active');
+            
+            // Update active state
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        function updateLanguageUI(lang) {
+            const flags = { en: '🇬🇧', it: '🇮🇹', es: '🇪🇸' };
+            const names = { en: 'English', it: 'Italiano', es: 'Español' };
+            
+            document.getElementById('currentFlag').textContent = flags[lang];
+            document.getElementById('currentLang').textContent = names[lang];
+            document.getElementById('html-root').setAttribute('lang', lang);
+        }
+
+        function translatePage(lang) {
+            const t = translations[lang] || translations.en;
+            
+            // Translate all elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (t[key]) {
+                    element.textContent = t[key];
+                }
+            });
+            
+            // Translate placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (t[key]) {
+                    element.placeholder = t[key];
+                }
+            });
+            
+            // Update page title
+            document.title = t.title;
+        }
+
         // Hybrid data management (memory + localStorage with fallback)
         let collectionData = {};
 
@@ -1049,15 +1671,16 @@
             const body = document.body;
             const themeIcon = document.getElementById('themeIcon');
             const themeText = document.getElementById('themeText');
+            const t = translations[currentLanguage];
             
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 themeIcon.textContent = '🌙';
-                themeText.textContent = 'Dark';
+                themeText.textContent = t.dark;
             } else {
                 body.setAttribute('data-theme', 'dark');
                 themeIcon.textContent = '☀️';
-                themeText.textContent = 'Light';
+                themeText.textContent = t.light;
             }
         }
 
@@ -1066,17 +1689,18 @@
             const mobileIcon = document.getElementById('mobileIcon');
             const mobileText = document.getElementById('mobileText');
             const viewToggle = document.getElementById('viewToggle');
+            const t = translations[currentLanguage];
             
             if (body.classList.contains('mobile-mode')) {
                 body.classList.remove('mobile-mode');
                 body.classList.remove('card-view-active');
                 mobileIcon.textContent = '📱';
-                mobileText.textContent = 'Mobile';
+                mobileText.textContent = t.mobile;
                 viewToggle.style.display = 'none';
             } else {
                 body.classList.add('mobile-mode');
                 mobileIcon.textContent = '💻';
-                mobileText.textContent = 'Desktop';
+                mobileText.textContent = t.desktop;
                 viewToggle.style.display = 'inline-block';
                 generateCardView();
             }
@@ -1085,13 +1709,14 @@
         function toggleCardView() {
             const body = document.body;
             const viewToggle = document.getElementById('viewToggle');
+            const t = translations[currentLanguage];
             
             if (body.classList.contains('card-view-active')) {
                 body.classList.remove('card-view-active');
-                viewToggle.textContent = '🃏 Card View';
+                viewToggle.innerHTML = '<span data-i18n="card_view">' + t.card_view + '</span>';
             } else {
                 body.classList.add('card-view-active');
-                viewToggle.textContent = '📋 Table View';
+                viewToggle.innerHTML = '<span data-i18n="table_view">' + t.table_view + '</span>';
                 generateCardView();
             }
         }
@@ -1099,24 +1724,25 @@
         function toggleFilters() {
             const filtersContent = document.getElementById('filtersContent');
             const toggleText = document.getElementById('filtersToggleText');
+            const t = translations[currentLanguage];
             
             if (filtersContent.classList.contains('hidden')) {
                 filtersContent.classList.remove('hidden');
-                toggleText.textContent = 'Hide';
+                toggleText.textContent = t.hide;
             } else {
                 filtersContent.classList.add('hidden');
-                toggleText.textContent = 'Show';
+                toggleText.textContent = t.show;
             }
         }
 
         function getTypeClass(type) {
             const primaryType = type.split('/')[0].toLowerCase();
-            return `type-${primaryType}`;
+            return 'type-' + primaryType;
         }
 
         function createTypeSpan(type) {
             const types = type.split('/');
-            return types.map(t => `<span class="type ${getTypeClass(t)}">${t}</span>`).join('');
+            return types.map(t => '<span class="type ' + getTypeClass(t) + '">' + t + '</span>').join('');
         }
 
         function generateTable() {
@@ -1126,68 +1752,74 @@
             // Add standard cards
             pokemonData.forEach(pokemon => {
                 const row = tbody.insertRow();
-                const cardId = `card_${pokemon.num}`;
+                const cardId = 'card_' + pokemon.num;
                 row.setAttribute('data-card-type', 'standard');
                 row.setAttribute('data-pokemon-name', pokemon.name.toLowerCase());
                 row.setAttribute('data-type', pokemon.type.toLowerCase());
                 
-                row.innerHTML = `
-                    <td><span class="card-number">${pokemon.num.toString().padStart(3, '0')}</span></td>
-                    <td class="pokemon-name">${pokemon.name}</td>
-                    <td>${createTypeSpan(pokemon.type)}</td>
-                    <td class="checkbox-container">
-                        <input type="checkbox" class="purchase-checkbox" id="${cardId}_owned" 
-                               onchange="updateCardData('${cardId}', 'owned', this.checked);">
-                    </td>
-                    <td class="checkbox-container">
-                        <input type="checkbox" class="order-checkbox" id="${cardId}_ordered" 
-                               onchange="updateCardData('${cardId}', 'ordered', this.checked);">
-                    </td>
-                    <td class="checkbox-container">
-                        <select class="grading-select" id="${cardId}_grading" 
-                                onchange="updateCardData('${cardId}', 'grading', this.value);">
-                            <option value="raw">Raw</option>
-                            <option value="psa">PSA</option>
-                            <option value="bgs">BGS</option>
-                            <option value="cgc">CGC</option>
-                            <option value="sgc">SGC</option>
-                        </select>
-                    </td>
-                `;
+                row.innerHTML = '<td><span class="card-number">' + pokemon.num.toString().padStart(3, '0') + '</span></td>' +
+                    '<td class="pokemon-name">' + pokemon.name + '</td>' +
+                    '<td>' + createTypeSpan(pokemon.type) + '</td>' +
+                    '<td class="checkbox-container">' +
+                        '<input type="checkbox" class="purchase-checkbox" id="' + cardId + '_owned" ' +
+                               'onchange="updateCardData(\'' + cardId + '\', \'owned\', this.checked);">' +
+                    '</td>' +
+                    '<td class="checkbox-container">' +
+                        '<input type="checkbox" class="order-checkbox" id="' + cardId + '_ordered" ' +
+                               'onchange="updateCardData(\'' + cardId + '\', \'ordered\', this.checked);">' +
+                    '</td>' +
+                    '<td class="checkbox-container">' +
+                        '<select class="grading-select" id="' + cardId + '_grading" ' +
+                                'onchange="updateCardData(\'' + cardId + '\', \'grading\', this.value);">' +
+                            '<option value="raw">Raw</option>' +
+                            '<option value="psa">PSA</option>' +
+                            '<option value="bgs">BGS</option>' +
+                            '<option value="cgc">CGC</option>' +
+                            '<option value="sgc">SGC</option>' +
+                        '</select>' +
+                    '</td>' +
+                    '<td class="checkbox-container">' +
+                        '<input type="number" class="price-input" id="' + cardId + '_price" ' +
+                               'placeholder="0.00" step="0.01" min="0" ' +
+                               'onchange="updateCardData(\'' + cardId + '\', \'price\', this.value);">' +
+                    '</td>';
             });
 
             // Add secret cards
             secretCards.forEach(card => {
                 const row = tbody.insertRow();
-                const cardId = `card_${card.num}`;
+                const cardId = 'card_' + card.num;
                 row.className = 'secret-card';
                 row.setAttribute('data-card-type', 'secret');
                 row.setAttribute('data-pokemon-name', card.name.toLowerCase());
                 row.setAttribute('data-type', card.type.toLowerCase());
                 
-                row.innerHTML = `
-                    <td><span class="card-number" style="background: #e74c3c;">${card.num}</span></td>
-                    <td class="pokemon-name">${card.name}</td>
-                    <td><span class="type type-special">${card.type}</span></td>
-                    <td class="checkbox-container">
-                        <input type="checkbox" class="purchase-checkbox" id="${cardId}_owned" 
-                               onchange="updateCardData('${cardId}', 'owned', this.checked);">
-                    </td>
-                    <td class="checkbox-container">
-                        <input type="checkbox" class="order-checkbox" id="${cardId}_ordered" 
-                               onchange="updateCardData('${cardId}', 'ordered', this.checked);">
-                    </td>
-                    <td class="checkbox-container">
-                        <select class="grading-select" id="${cardId}_grading" 
-                                onchange="updateCardData('${cardId}', 'grading', this.value);">
-                            <option value="raw">Raw</option>
-                            <option value="psa">PSA</option>
-                            <option value="bgs">BGS</option>
-                            <option value="cgc">CGC</option>
-                            <option value="sgc">SGC</option>
-                        </select>
-                    </td>
-                `;
+                row.innerHTML = '<td><span class="card-number" style="background: #e74c3c;">' + card.num + '</span></td>' +
+                    '<td class="pokemon-name">' + card.name + '</td>' +
+                    '<td><span class="type type-special">' + card.type + '</span></td>' +
+                    '<td class="checkbox-container">' +
+                        '<input type="checkbox" class="purchase-checkbox" id="' + cardId + '_owned" ' +
+                               'onchange="updateCardData(\'' + cardId + '\', \'owned\', this.checked);">' +
+                    '</td>' +
+                    '<td class="checkbox-container">' +
+                        '<input type="checkbox" class="order-checkbox" id="' + cardId + '_ordered" ' +
+                               'onchange="updateCardData(\'' + cardId + '\', \'ordered\', this.checked);">' +
+                    '</td>' +
+                    '<td class="checkbox-container">' +
+                        '<select class="grading-select" id="' + cardId + '_grading" ' +
+                                'onchange="updateCardData(\'' + cardId + '\', \'grading\', this.value);">' +
+                            '<option value="raw">Raw</option>' +
+                            '<option value="psa">PSA</option>' +
+                            '<option value="bgs">BGS</option>' +
+                            '<option value="cgc">CGC</option>' +
+                            '<option value="sgc">SGC</option>' +
+                        '</select>' +
+                    '</td>' +
+                    '<td class="checkbox-container">' +
+                        '<input type="number" class="price-input" id="' + cardId + '_price" ' +
+                               'placeholder="0.00" step="0.01" min="0" ' +
+                               'onchange="updateCardData(\'' + cardId + '\', \'price\', this.value);">' +
+                    '</td>';
             });
 
             loadCollectionData();
@@ -1200,74 +1832,76 @@
 
             // Generate standard cards
             pokemonData.forEach(pokemon => {
-                const cardId = `card_${pokemon.num}`;
+                const cardId = 'card_' + pokemon.num;
                 const cardDiv = document.createElement('div');
                 cardDiv.className = 'pokemon-card';
                 cardDiv.setAttribute('data-card-type', 'standard');
                 cardDiv.setAttribute('data-pokemon-name', pokemon.name.toLowerCase());
                 cardDiv.setAttribute('data-type', pokemon.type.toLowerCase());
-                cardDiv.id = `${cardId}_card`;
+                cardDiv.id = cardId + '_card';
                 
-                cardDiv.innerHTML = `
-                    <div class="card-info">
-                        <div class="pokemon-name">${pokemon.name}</div>
-                        <span class="card-number">${pokemon.num.toString().padStart(3, '0')}</span>
-                        <div>${createTypeSpan(pokemon.type)}</div>
-                    </div>
-                    <div class="card-controls">
-                        <input type="checkbox" class="card-checkbox" id="${cardId}_owned_card" 
-                               onchange="syncCardData('${cardId}', 'owned', this.checked);">
-                        <label style="font-size: 10px;">Owned</label>
-                        <input type="checkbox" class="card-checkbox" id="${cardId}_ordered_card" 
-                               onchange="syncCardData('${cardId}', 'ordered', this.checked);">
-                        <label style="font-size: 10px;">Ordered</label>
-                        <select class="grading-select" id="${cardId}_grading_card" style="font-size: 9px; width: 60px;"
-                                onchange="syncCardData('${cardId}', 'grading', this.value);">
-                            <option value="raw">Raw</option>
-                            <option value="psa">PSA</option>
-                            <option value="bgs">BGS</option>
-                            <option value="cgc">CGC</option>
-                            <option value="sgc">SGC</option>
-                        </select>
-                    </div>
-                `;
+                cardDiv.innerHTML = '<div class="card-info">' +
+                        '<div class="pokemon-name">' + pokemon.name + '</div>' +
+                        '<span class="card-number">' + pokemon.num.toString().padStart(3, '0') + '</span>' +
+                        '<div>' + createTypeSpan(pokemon.type) + '</div>' +
+                    '</div>' +
+                    '<div class="card-controls">' +
+                        '<input type="checkbox" class="card-checkbox" id="' + cardId + '_owned_card" ' +
+                               'onchange="syncCardData(\'' + cardId + '\', \'owned\', this.checked);">' +
+                        '<label style="font-size: 10px;">Owned</label>' +
+                        '<input type="checkbox" class="card-checkbox" id="' + cardId + '_ordered_card" ' +
+                               'onchange="syncCardData(\'' + cardId + '\', \'ordered\', this.checked);">' +
+                        '<label style="font-size: 10px;">Ordered</label>' +
+                        '<select class="grading-select" id="' + cardId + '_grading_card" style="font-size: 9px; width: 60px;" ' +
+                                'onchange="syncCardData(\'' + cardId + '\', \'grading\', this.value);">' +
+                            '<option value="raw">Raw</option>' +
+                            '<option value="psa">PSA</option>' +
+                            '<option value="bgs">BGS</option>' +
+                            '<option value="cgc">CGC</option>' +
+                            '<option value="sgc">SGC</option>' +
+                        '</select>' +
+                        '<input type="number" class="price-input" id="' + cardId + '_price_card" ' +
+                               'placeholder="0.00" step="0.01" min="0" style="font-size: 9px; width: 60px;" ' +
+                               'onchange="syncCardData(\'' + cardId + '\', \'price\', this.value);">' +
+                    '</div>';
                 
                 cardView.appendChild(cardDiv);
             });
 
             // Generate secret cards
             secretCards.forEach(card => {
-                const cardId = `card_${card.num}`;
+                const cardId = 'card_' + card.num;
                 const cardDiv = document.createElement('div');
                 cardDiv.className = 'pokemon-card secret-card';
                 cardDiv.setAttribute('data-card-type', 'secret');
                 cardDiv.setAttribute('data-pokemon-name', card.name.toLowerCase());
                 cardDiv.setAttribute('data-type', card.type.toLowerCase());
-                cardDiv.id = `${cardId}_card`;
+                cardDiv.id = cardId + '_card';
                 
-                cardDiv.innerHTML = `
-                    <div class="card-info">
-                        <div class="pokemon-name">${card.name}</div>
-                        <span class="card-number" style="background: #e74c3c;">${card.num}</span>
-                        <div><span class="type type-special">${card.type}</span></div>
-                    </div>
-                    <div class="card-controls">
-                        <input type="checkbox" class="card-checkbox" id="${cardId}_owned_card" 
-                               onchange="syncCardData('${cardId}', 'owned', this.checked);">
-                        <label style="font-size: 10px;">Owned</label>
-                        <input type="checkbox" class="card-checkbox" id="${cardId}_ordered_card" 
-                               onchange="syncCardData('${cardId}', 'ordered', this.checked);">
-                        <label style="font-size: 10px;">Ordered</label>
-                        <select class="grading-select" id="${cardId}_grading_card" style="font-size: 9px; width: 60px;"
-                                onchange="syncCardData('${cardId}', 'grading', this.value);">
-                            <option value="raw">Raw</option>
-                            <option value="psa">PSA</option>
-                            <option value="bgs">BGS</option>
-                            <option value="cgc">CGC</option>
-                            <option value="sgc">SGC</option>
-                        </select>
-                    </div>
-                `;
+                cardDiv.innerHTML = '<div class="card-info">' +
+                        '<div class="pokemon-name">' + card.name + '</div>' +
+                        '<span class="card-number" style="background: #e74c3c;">' + card.num + '</span>' +
+                        '<div><span class="type type-special">' + card.type + '</span></div>' +
+                    '</div>' +
+                    '<div class="card-controls">' +
+                        '<input type="checkbox" class="card-checkbox" id="' + cardId + '_owned_card" ' +
+                               'onchange="syncCardData(\'' + cardId + '\', \'owned\', this.checked);">' +
+                        '<label style="font-size: 10px;">Owned</label>' +
+                        '<input type="checkbox" class="card-checkbox" id="' + cardId + '_ordered_card" ' +
+                               'onchange="syncCardData(\'' + cardId + '\', \'ordered\', this.checked);">' +
+                        '<label style="font-size: 10px;">Ordered</label>' +
+                        '<select class="grading-select" id="' + cardId + '_grading_card" style="font-size: 9px; width: 60px;" ' +
+                                'onchange="syncCardData(\'' + cardId + '\', \'grading\', this.value);">' +
+                            '<option value="raw">Raw</option>' +
+                            '<option value="psa">PSA</option>' +
+                            '<option value="bgs">BGS</option>' +
+                            '<option value="cgc">CGC</option>' +
+                            '<option value="sgc">SGC</option>' +
+                        '</select>' +
+                        '<input type="number" class="price-input" id="' + cardId + '_price_card" ' +
+                               'placeholder="0.00" step="0.01" min="0" style="font-size: 9px; width: 60px;" ' +
+                               'onchange="syncCardData(\'' + cardId + '\', \'price\', this.value);">' +
+                    '</div>';
                 
                 cardView.appendChild(cardDiv);
             });
@@ -1277,17 +1911,23 @@
 
         function updateCardData(cardId, field, value) {
             if (!collectionData[cardId]) {
-                collectionData[cardId] = { owned: false, ordered: false, grading: 'raw' };
+                collectionData[cardId] = { owned: false, ordered: false, grading: 'raw', price: 0 };
             }
+            
+            // Handle price field specially
+            if (field === 'price') {
+                value = parseFloat(value) || 0;
+            }
+            
             collectionData[cardId][field] = value;
             saveData();
             updateStats();
             updateCardVisualState(cardId);
             
             // Sync with card view if exists
-            const cardElement = document.getElementById(`${cardId}_${field}_card`);
+            const cardElement = document.getElementById(cardId + '_' + field + '_card');
             if (cardElement) {
-                if (field === 'grading') {
+                if (field === 'grading' || field === 'price') {
                     cardElement.value = value;
                 } else {
                     cardElement.checked = value;
@@ -1297,17 +1937,23 @@
 
         function syncCardData(cardId, field, value) {
             if (!collectionData[cardId]) {
-                collectionData[cardId] = { owned: false, ordered: false, grading: 'raw' };
+                collectionData[cardId] = { owned: false, ordered: false, grading: 'raw', price: 0 };
             }
+            
+            // Handle price field specially
+            if (field === 'price') {
+                value = parseFloat(value) || 0;
+            }
+            
             collectionData[cardId][field] = value;
             saveData();
             updateStats();
             updateCardVisualState(cardId);
             
             // Sync with table view
-            const tableElement = document.getElementById(`${cardId}_${field}`);
+            const tableElement = document.getElementById(cardId + '_' + field);
             if (tableElement) {
-                if (field === 'grading') {
+                if (field === 'grading' || field === 'price') {
                     tableElement.value = value;
                 } else {
                     tableElement.checked = value;
@@ -1316,8 +1962,8 @@
         }
 
         function updateCardVisualState(cardId) {
-            const cardDiv = document.getElementById(`${cardId}_card`);
-            const isOwned = collectionData[cardId]?.owned || false;
+            const cardDiv = document.getElementById(cardId + '_card');
+            const isOwned = collectionData[cardId] && collectionData[cardId].owned || false;
             
             if (cardDiv) {
                 if (isOwned) {
@@ -1333,22 +1979,26 @@
                 const data = collectionData[cardId];
                 
                 // Sync table elements
-                const ownedElement = document.getElementById(`${cardId}_owned`);
-                const orderedElement = document.getElementById(`${cardId}_ordered`);
-                const gradingElement = document.getElementById(`${cardId}_grading`);
+                const ownedElement = document.getElementById(cardId + '_owned');
+                const orderedElement = document.getElementById(cardId + '_ordered');
+                const gradingElement = document.getElementById(cardId + '_grading');
+                const priceElement = document.getElementById(cardId + '_price');
                 
                 if (ownedElement) ownedElement.checked = data.owned;
                 if (orderedElement) orderedElement.checked = data.ordered;
                 if (gradingElement) gradingElement.value = data.grading;
+                if (priceElement) priceElement.value = data.price || 0;
                 
                 // Sync card view elements
-                const ownedCardElement = document.getElementById(`${cardId}_owned_card`);
-                const orderedCardElement = document.getElementById(`${cardId}_ordered_card`);
-                const gradingCardElement = document.getElementById(`${cardId}_grading_card`);
+                const ownedCardElement = document.getElementById(cardId + '_owned_card');
+                const orderedCardElement = document.getElementById(cardId + '_ordered_card');
+                const gradingCardElement = document.getElementById(cardId + '_grading_card');
+                const priceCardElement = document.getElementById(cardId + '_price_card');
                 
                 if (ownedCardElement) ownedCardElement.checked = data.owned;
                 if (orderedCardElement) orderedCardElement.checked = data.ordered;
                 if (gradingCardElement) gradingCardElement.value = data.grading;
+                if (priceCardElement) priceCardElement.value = data.price || 0;
                 
                 updateCardVisualState(cardId);
             });
@@ -1358,20 +2008,31 @@
             const totalCards = pokemonData.length + secretCards.length;
             let ownedCount = 0;
             let orderedCount = 0;
+            let totalValue = 0;
+            let priceCount = 0;
             
             Object.values(collectionData).forEach(data => {
-                if (data.owned) ownedCount++;
+                if (data.owned) {
+                    ownedCount++;
+                    if (data.price && data.price > 0) {
+                        totalValue += data.price;
+                        priceCount++;
+                    }
+                }
                 if (data.ordered) orderedCount++;
             });
             
             const missingCards = totalCards - ownedCount;
             const completionPercentage = Math.round((ownedCount / totalCards) * 100);
+            const averagePrice = priceCount > 0 ? totalValue / priceCount : 0;
 
             document.getElementById('totalCards').textContent = totalCards;
             document.getElementById('ownedCards').textContent = ownedCount;
             document.getElementById('orderedCards').textContent = orderedCount;
             document.getElementById('missingCards').textContent = missingCards;
-            document.getElementById('completionPercentage').textContent = `${completionPercentage}%`;
+            document.getElementById('completionPercentage').textContent = completionPercentage + '%';
+            document.getElementById('totalValue').textContent = formatPrice(totalValue);
+            document.getElementById('averagePrice').textContent = formatPrice(averagePrice);
         }
 
         function applyFilters() {
@@ -1392,7 +2053,7 @@
                 
                 // Get card data
                 const cardId = row.querySelector('.purchase-checkbox').id.replace('_owned', '');
-                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw', price: 0 };
                 
                 let showRow = true;
                 
@@ -1437,7 +2098,7 @@
                 
                 // Get card data
                 const cardId = card.id.replace('_card', '');
-                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw', price: 0 };
                 
                 let showCard = true;
                 
@@ -1480,7 +2141,8 @@
         }
 
         function resetCollection() {
-            if (confirm('Are you sure you want to reset all collection data?')) {
+            const t = translations[currentLanguage];
+            if (confirm(t.reset_confirm)) {
                 collectionData = {};
                 try {
                     localStorage.removeItem('carddass_collection');
@@ -1488,9 +2150,10 @@
                     console.log('Error removing from localStorage');
                 }
                 
-                // Reset all checkboxes and selects
+                // Reset all checkboxes, selects and price inputs
                 document.querySelectorAll('.purchase-checkbox, .order-checkbox, .card-checkbox').forEach(cb => cb.checked = false);
                 document.querySelectorAll('.grading-select').forEach(select => select.value = 'raw');
+                document.querySelectorAll('.price-input').forEach(input => input.value = '');
                 document.querySelectorAll('.pokemon-card').forEach(card => {
                     card.classList.remove('owned');
                 });
@@ -1499,16 +2162,17 @@
         }
 
         function markAllOwned() {
-            if (confirm('Do you want to mark all cards as owned?')) {
+            const t = translations[currentLanguage];
+            if (confirm(t.mark_all_owned_confirm)) {
                 // Mark all standard cards as owned
                 pokemonData.forEach(pokemon => {
-                    const cardId = `card_${pokemon.num}`;
+                    const cardId = 'card_' + pokemon.num;
                     updateCardData(cardId, 'owned', true);
                 });
                 
                 // Mark all secret cards as owned
                 secretCards.forEach(card => {
-                    const cardId = `card_${card.num}`;
+                    const cardId = 'card_' + card.num;
                     updateCardData(cardId, 'owned', true);
                 });
                 
@@ -1519,8 +2183,9 @@
 
         // Backup functions
         function exportBackup() {
+            const t = translations[currentLanguage];
             const backupData = {
-                version: "2.0",
+                version: "2.1",
                 timestamp: new Date().toISOString(),
                 totalCards: pokemonData.length + secretCards.length,
                 collectionData: collectionData,
@@ -1536,10 +2201,10 @@
             
             const link = document.createElement('a');
             link.href = URL.createObjectURL(dataBlob);
-            link.download = `Pokemon_Carddass_Backup_${new Date().toISOString().split('T')[0]}.json`;
+            link.download = 'Pokemon_Carddass_Backup_' + new Date().toISOString().split('T')[0] + '.json';
             link.click();
             
-            alert('✅ Backup created successfully!');
+            alert(t.backup_created);
         }
 
         function importBackup() {
@@ -1547,11 +2212,12 @@
         }
 
         function handleFileImport(event) {
+            const t = translations[currentLanguage];
             const file = event.target.files[0];
             if (!file) return;
 
             if (!file.name.endsWith('.json')) {
-                alert('⚠️ Please select a valid JSON file.');
+                alert(t.invalid_file);
                 return;
             }
 
@@ -1565,7 +2231,7 @@
                         throw new Error('Invalid backup file: missing collection data');
                     }
 
-                    // Handle old format (v1.0) compatibility
+                    // Handle old format compatibility
                     let importData = {};
                     if (backupData.purchaseStates) {
                         // Convert old format to new format
@@ -1574,22 +2240,22 @@
                             importData[cardId] = {
                                 owned: backupData.purchaseStates[oldKey],
                                 ordered: false,
-                                grading: 'raw'
+                                grading: 'raw',
+                                price: 0
                             };
                         });
                     } else {
                         importData = backupData.collectionData;
+                        // Add price field to existing data if missing
+                        Object.keys(importData).forEach(cardId => {
+                            if (!importData[cardId].hasOwnProperty('price')) {
+                                importData[cardId].price = 0;
+                            }
+                        });
                     }
 
                     // Confirm before import
-                    const importInfo = `
-📊 BACKUP INFORMATION:
-- Date: ${backupData.timestamp ? new Date(backupData.timestamp).toLocaleString('en-US') : 'Not available'}
-- Owned cards: ${backupData.statistics?.owned || 'Not available'}
-- Completion: ${backupData.statistics?.completion || 'Not available'}%
-
-⚠️ WARNING: This will replace all current data!
-Do you want to proceed with the import?`;
+                    const importInfo = 'BACKUP INFORMATION:\\n- Date: ' + (backupData.timestamp ? new Date(backupData.timestamp).toLocaleString('en-US') : 'Not available') + '\\n- Owned cards: ' + (backupData.statistics && backupData.statistics.owned || 'Not available') + '\\n- Completion: ' + (backupData.statistics && backupData.statistics.completion || 'Not available') + '%\\n\\nWARNING: This will replace all current data!\\nDo you want to proceed with the import?';
 
                     if (confirm(importInfo)) {
                         collectionData = importData;
@@ -1597,10 +2263,10 @@ Do you want to proceed with the import?`;
                         loadCollectionData();
                         syncAllCardData();
                         updateStats();
-                        alert('✅ Backup imported successfully!');
+                        alert(t.backup_imported);
                     }
                 } catch (error) {
-                    alert('❌ Error importing backup:\n' + error.message);
+                    alert(t.import_error + '\\n' + error.message);
                 }
             };
             
@@ -1609,37 +2275,40 @@ Do you want to proceed with the import?`;
         }
 
         function exportToExcel() {
+            const t = translations[currentLanguage];
             if (typeof XLSX === 'undefined') {
-                alert('Excel library not loaded!');
+                alert(t.excel_error);
                 return;
             }
 
             const workbook = XLSX.utils.book_new();
-            const data = [['Number', 'Name', 'Type', 'Owned', 'Ordered', 'Condition']];
+            const data = [[t.number, t.pokemon_name, t.type, t.owned, t.ordered, t.condition, t.price]];
             
             pokemonData.forEach(pokemon => {
-                const cardId = `card_${pokemon.num}`;
-                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
+                const cardId = 'card_' + pokemon.num;
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw', price: 0 };
                 data.push([
                     pokemon.num.toString().padStart(3, '0'),
                     pokemon.name,
                     pokemon.type,
                     cardData.owned ? 'Yes' : 'No',
                     cardData.ordered ? 'Yes' : 'No',
-                    cardData.grading.toUpperCase()
+                    cardData.grading.toUpperCase(),
+                    cardData.price || 0
                 ]);
             });
 
             secretCards.forEach(card => {
-                const cardId = `card_${card.num}`;
-                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
+                const cardId = 'card_' + card.num;
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw', price: 0 };
                 data.push([
                     card.num,
                     card.name,
                     card.type,
                     cardData.owned ? 'Yes' : 'No',
                     cardData.ordered ? 'Yes' : 'No',
-                    cardData.grading.toUpperCase()
+                    cardData.grading.toUpperCase(),
+                    cardData.price || 0
                 ]);
             });
 
@@ -1649,18 +2318,19 @@ Do you want to proceed with the import?`;
         }
 
         function exportToCSV() {
-            let csv = 'Number,Name,Type,Owned,Ordered,Condition\n';
+            const t = translations[currentLanguage];
+            let csv = t.number + ',' + t.pokemon_name + ',' + t.type + ',' + t.owned + ',' + t.ordered + ',' + t.condition + ',' + t.price + '\\n';
             
             pokemonData.forEach(pokemon => {
-                const cardId = `card_${pokemon.num}`;
-                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
-                csv += `${pokemon.num.toString().padStart(3, '0')},"${pokemon.name}","${pokemon.type}","${cardData.owned ? 'Yes' : 'No'}","${cardData.ordered ? 'Yes' : 'No'}","${cardData.grading.toUpperCase()}"\n`;
+                const cardId = 'card_' + pokemon.num;
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw', price: 0 };
+                csv += pokemon.num.toString().padStart(3, '0') + ',"' + pokemon.name + '","' + pokemon.type + '","' + (cardData.owned ? 'Yes' : 'No') + '","' + (cardData.ordered ? 'Yes' : 'No') + '","' + cardData.grading.toUpperCase() + '","' + (cardData.price || 0) + '"\\n';
             });
 
             secretCards.forEach(card => {
-                const cardId = `card_${card.num}`;
-                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw' };
-                csv += `${card.num},"${card.name}","${card.type}","${cardData.owned ? 'Yes' : 'No'}","${cardData.ordered ? 'Yes' : 'No'}","${cardData.grading.toUpperCase()}"\n`;
+                const cardId = 'card_' + card.num;
+                const cardData = collectionData[cardId] || { owned: false, ordered: false, grading: 'raw', price: 0 };
+                csv += card.num + ',"' + card.name + '","' + card.type + '","' + (cardData.owned ? 'Yes' : 'No') + '","' + (cardData.ordered ? 'Yes' : 'No') + '","' + cardData.grading.toUpperCase() + '","' + (cardData.price || 0) + '"\\n';
             });
 
             const blob = new Blob([csv], { type: 'text/csv' });
@@ -1672,7 +2342,48 @@ Do you want to proceed with the import?`;
 
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize language and currency first
+            initializeLanguage();
+            initializeCurrency();
+            
+            // Generate table
             generateTable();
+            
+            // Language dropdown functionality
+            document.getElementById('langToggle').addEventListener('click', toggleLanguageDropdown);
+            
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    changeLanguage(lang);
+                });
+            });
+
+            // Currency dropdown functionality
+            document.getElementById('currencyToggle').addEventListener('click', toggleCurrencyDropdown);
+            
+            document.querySelectorAll('.currency-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const currency = this.getAttribute('data-currency');
+                    changeCurrency(currency);
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(event) {
+                const languageSelector = document.querySelector('.language-selector');
+                const currencySelector = document.querySelector('.currency-selector');
+                
+                if (!languageSelector.contains(event.target)) {
+                    document.getElementById('langDropdown').classList.remove('active');
+                    document.getElementById('langToggle').classList.remove('active');
+                }
+                
+                if (!currencySelector.contains(event.target)) {
+                    document.getElementById('currencyDropdown').classList.remove('active');
+                    document.getElementById('currencyToggle').classList.remove('active');
+                }
+            });
             
             // Show storage status message
             try {
@@ -1682,8 +2393,9 @@ Do you want to proceed with the import?`;
             } catch (e) {
                 console.log('⚠️ LocalStorage not available - data will be kept in session only');
                 // Optionally show a warning to the user
-                setTimeout(() => {
-                    if (confirm('⚠️ WARNING: Browser cannot save data permanently.\nYour data will be lost when closing the page.\n\nDo you want to download a backup now?')) {
+                setTimeout(function() {
+                    const t = translations[currentLanguage];
+                    if (confirm(t.storage_warning)) {
                         exportBackup();
                     }
                 }, 2000);
