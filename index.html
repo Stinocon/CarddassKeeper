@@ -633,6 +633,8 @@
         
         .table-container {
             overflow-x: auto;
+            overflow-y: auto;  /* CORREZIONE: Scroll verticale abilitato */
+            max-height: 600px; /* CORREZIONE: Altezza massima impostata */
             border-radius: 15px;
             box-shadow: 0 10px 30px var(--shadow);
             margin-bottom: 30px;
@@ -654,8 +656,10 @@
             padding: 18px 12px;
             text-align: left;
             font-weight: 600;
-            position: sticky;
+            position: sticky;  /* CORREZIONE: Header sticky mantenuto */
             top: 0;
+            z-index: 100;     /* CORREZIONE: Z-index aggiunto per sicurezza */
+            background: linear-gradient(135deg, #3498db, #2980b9); /* Background mantenuto */
         }
         
         td {
